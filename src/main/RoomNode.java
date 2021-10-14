@@ -19,13 +19,13 @@ public class RoomNode {
     private Vector2 position;
 
     public RoomNode(FloorType to_floor, boolean to_obstacle, Vector2 to_position) {
-        floor = to_floor;
-        obstacle = to_obstacle;
-        node_N = null;
-        node_S = null;
-        node_E = null;
-        node_W = null;
-        position = to_position;
+        this.floor = to_floor;
+        this.obstacle = to_obstacle;
+        this.node_N = null;
+        this.node_S = null;
+        this.node_E = null;
+        this.node_W = null;
+        this.position = to_position;
     }
 
     public FloorType get_floor() {
@@ -44,36 +44,30 @@ public class RoomNode {
         this.obstacle = obstacle;
     }
 
-    public RoomNode get_node_N() {
-        return node_N;
+    public RoomNode get_node(Direction dir) {
+        switch(dir) {
+            case NORTH:
+                return node_N;
+            case SOUTH:
+                return node_S;
+            case EAST:
+                return node_E;
+            case WEST:
+                return node_W;
+        } return null;
     }
 
-    public void set_node_N(RoomNode node_N) {
-        this.node_N = node_N;
-    }
-
-    public RoomNode get_node_S() {
-        return node_S;
-    }
-
-    public void set_node_S(RoomNode node_S) {
-        this.node_S = node_S;
-    }
-
-    public RoomNode get_node_E() {
-        return node_E;
-    }
-
-    public void set_node_E(RoomNode node_E) {
-        this.node_E = node_E;
-    }
-
-    public RoomNode get_node_W() {
-        return node_W;
-    }
-
-    public void set_node_W(RoomNode node_W) {
-        this.node_W = node_W;
+    public void set_node(Direction dir, RoomNode node) {
+        switch(dir) {
+            case NORTH:
+                this.node_N = node;
+            case SOUTH:
+                this.node_S = node;
+            case EAST:
+                this.node_E = node;
+            case WEST:
+                this.node_W = node;
+        }
     }
 
     public Vector2 get_position() {

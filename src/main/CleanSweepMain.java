@@ -3,8 +3,8 @@ package main;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class CleanSweepMain {
     public static void main(String[] args) {
-        System.out.println("Clean Sweep");
+        // TODO.
     }
 }

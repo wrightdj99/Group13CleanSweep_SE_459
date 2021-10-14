@@ -6,8 +6,8 @@ public class Vector2 {
     private int y;
 
     public Vector2(int to_x, int to_y) {
-        x = to_x;
-        y = to_y;
+        this.x = to_x;
+        this.y = to_y;
     }
 
     public int get_x() {

@@ -5,3 +5,4 @@ public enum FloorType {
     LOW_CARPET,
     HIGH_CARPET
 }
+
