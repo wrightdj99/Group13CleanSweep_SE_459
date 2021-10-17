@@ -1,4 +1,5 @@
 package main;
+import java.util.*;
 
 public class Navigate {
 
@@ -11,6 +12,10 @@ public class Navigate {
         //x and y coordinates
         int x = 0;
         int y = 0;
+
+        //2D Array To Keep Track Of Movement
+        ArrayList <Integer> xCoor = new ArrayList <Integer>();
+        ArrayList <Integer> yCoor = new ArrayList <Integer>();
 
         // Will keep track of the direction of the Clean Sweep
         int direction = 0;
