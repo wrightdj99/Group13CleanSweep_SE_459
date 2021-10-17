@@ -121,7 +121,7 @@ public class Navigator {
             peek_pos.set_y(peek_pos.get_y() + 1);
         }
         if (peek_dir == Direction.WEST) {
-            peek_pos.set_y(peek_pos.get_y() + 1);
+            peek_pos.set_y(peek_pos.get_y() - 1);
         }
         return fetch(peek_pos, CleanSweepMain.floor_master);
     }
