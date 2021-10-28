@@ -12,8 +12,8 @@ public class CleanSweepMain {
     // The control system's entry point.
     public static void main(String[] args) {
         // Run demo methods here.
-        demo_1();
-        // demo_2();
+        // demo_1();
+        demo_2();
         // demo_3();
         // . . . etc.
     }
@@ -44,6 +44,9 @@ public class CleanSweepMain {
 
     public static void demo_2() {
         // TODO - Demo automatic pathfinding to charging station.
+        build_1();
+        CleanSweep.set_curr_charge(250);
+        System.out.println(Navigator.breadth_first_calc());
     }
 
     public static void build_1() {
@@ -51,7 +54,7 @@ public class CleanSweepMain {
         // Initializing our demo floor plan.
             // [L] [H] [B] [L]
             // [L] [X] [B] [X]
-            // [B] [X] [H] [L]
+            // [B] [X] [H] [L] <-- Starting here.
             // [B] [B] [X] [L]
                 // B = Bare Floor
                 // L = Low Carpet
