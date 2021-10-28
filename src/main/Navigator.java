@@ -59,7 +59,7 @@ public class Navigator {
     }
 
     public static boolean validate() {
-        return false; // TODO - This should somehow verify the Clean Sweep's movements.
+        return true; // TODO - This should somehow verify the Clean Sweep's movements.
     }
 
     public static RoomNode fetch(Vector2 target_pos, RoomNode floor_plan) {
@@ -124,6 +124,21 @@ public class Navigator {
             peek_pos.set_y(peek_pos.get_y() - 1);
         }
         return fetch(peek_pos, CleanSweepMain.floor_master);
+    }
+
+    public static RoomNode get_curr() {
+        return curr;
+    }
+
+    public static void set_curr(RoomNode curr) {
+        Navigator.curr = curr;
+    }
+
+    public static float power_req_calc(RoomNode at, RoomNode to) {
+        // This will calculate the amount of power needed to move from one node to another.
+        float node_1_req = FloorType.floor_conv(at.get_floor());
+        float node_2_req = FloorType.floor_conv(to.get_floor());
+        return (node_1_req + node_2_req) / 2.0f;
     }
 
 }

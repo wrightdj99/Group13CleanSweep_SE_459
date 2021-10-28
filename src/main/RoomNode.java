@@ -61,12 +61,16 @@ public class RoomNode {
         switch(dir) {
             case NORTH:
                 this.node_N = node;
+                return;
             case SOUTH:
                 this.node_S = node;
+                return;
             case EAST:
                 this.node_E = node;
+                return;
             case WEST:
                 this.node_W = node;
+                return;
         }
     }
 
