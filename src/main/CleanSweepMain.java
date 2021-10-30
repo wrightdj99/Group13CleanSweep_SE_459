@@ -12,9 +12,8 @@ public class CleanSweepMain {
     // The control system's entry point.
     public static void main(String[] args) {
         // Run demo methods here.
-        // demo_1();
+        demo_1();
         demo_2();
-        // demo_3();
         // . . . etc.
     }
 
@@ -22,12 +21,13 @@ public class CleanSweepMain {
         // Manual traversal of the floor plan.
         build_1();
         CleanSweep.set_curr_charge(250);
+        System.out.println("demo_1");
         System.out.println(Navigator.get_curr().get_position().toString()); // (3, 1)
-        System.out.println(Navigator.move(Direction.EAST));                 // Can't move east.
+        System.out.println(Navigator.move(Direction.EAST));                 // Can't move east (out of bounds).
         System.out.println(Navigator.get_curr().get_position().toString()); // (3, 1)
         System.out.println(Navigator.move(Direction.WEST));                 // Move west.
         System.out.println(Navigator.get_curr().get_position().toString()); // (2, 1)
-        System.out.println(Navigator.move(Direction.WEST));                 // Can't move west.
+        System.out.println(Navigator.move(Direction.WEST));                 // Can't move west (obstacle).
         System.out.println(Navigator.get_curr().get_position().toString()); // (2, 1)
         System.out.println(Navigator.move(Direction.NORTH));                // Move north.
         System.out.println(Navigator.move(Direction.NORTH));                // Move north.
@@ -38,15 +38,21 @@ public class CleanSweepMain {
         System.out.println(Navigator.move(Direction.SOUTH));                // Move south.
         System.out.println(Navigator.move(Direction.SOUTH));                // Move south.
         System.out.println(Navigator.move(Direction.SOUTH));                // Move south.
-        System.out.println(Navigator.move(Direction.SOUTH));                // Can't move south.
+        System.out.println(Navigator.move(Direction.SOUTH));                // Can't move south (out of bounds).
         System.out.println(Navigator.get_curr().get_position().toString()); // (0, 0) - We're back home.
+        System.out.println("\n");
     }
 
     public static void demo_2() {
-        // TODO - Demo automatic pathfinding to charging station.
+        // Automatic pathfinding to charging station.
         build_1();
         CleanSweep.set_curr_charge(250);
-        System.out.println(Navigator.breadth_first_calc());
+        System.out.println("demo_2");
+        ArrayList<RoomNode> charge_path = Navigator.auto_charge_pathfinder();
+        while (charge_path.size() != 0) {
+            RoomNode charge_path_node = charge_path.remove(0);
+            System.out.println(charge_path_node.get_position().toString());
+        } System.out.println("\n");
     }
 
     public static void build_1() {

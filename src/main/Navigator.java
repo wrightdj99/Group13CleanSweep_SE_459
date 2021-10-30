@@ -11,6 +11,7 @@ public class Navigator {
     private static int invalid; // How many times the Clean Sweep failed to move consecutively.
 
     public static boolean move(Direction move_to) {
+        // curr.adj_list_refresh(); // For debug purposes.
         // Is the Clean Sweep still in the same location it was before?
         // TODO - Would the Clean Sweep even know it was stuck if it didn't have a full floor plan for reference?
         if (!validate()) { // Let's check . . .
@@ -23,15 +24,19 @@ public class Navigator {
                 return false; // ?
             }
         }
-        // TODO - Does the clean sweep have enough battery life to move? Check for that here!
-        if (!power_req_peek(move_to)) {
-            // TODO.
-        }
+        float power_req = path_power_req_calc(move_to); // How much power do we need to return to the charging station?
+        // System.out.println(power_req); // For debug purposes.
         // TODO - Some of the below code might get a bit redundant. Might be worth cleaning up a little bit.
         RoomNode next = curr.get_node(move_to); // Checking if there's an obstacle ahead or not.
         if (next != null) { // Is there a node ahead at all?
             if (!next.is_obstacle()) { // Is the node ahead an obstacle?
                 // It's not! So we can move.
+                float charge_after_move = CleanSweep.get_curr_charge() - power_req_calc(curr, next);
+                if (charge_after_move < power_req) { // But do we have enough power?
+                    return false;
+                    // TODO - Return to the charging station.
+                    // Whatever is calling move(), it can use auto_charge_pathfinder() to chart a course back.
+                }
                 // If we could make a system call to get the Clean Sweep to physically move, we'd do that here.
                 // curr_prev = curr;
                 curr = next;
@@ -47,6 +52,12 @@ public class Navigator {
             if (discovered != null) { // Is there a node there at all?
                 if (!discovered.is_obstacle()) { // Is the node an obstacle?
                     // It's not! So we can move.
+                    float charge_after_move = CleanSweep.get_curr_charge() - power_req_calc(curr, next);
+                    if (charge_after_move < power_req) { // But do we have enough power?
+                        return false;
+                        // TODO - Return to the charging station.
+                        // Whatever is calling move(), it can use auto_charge_pathfinder() to chart a course back.
+                    }
                     // If we could make a system call to get the Clean Sweep to physically move, we'd do that here.
                     // curr_prev = curr;
                     curr = discovered;
@@ -137,9 +148,17 @@ public class Navigator {
         Navigator.curr = curr;
     }
 
-    public static boolean power_req_peek(Direction move_to) {
-        // This method will check to see if the Clean Sweep will be able to return home after moving.
-        return true; // TODO.
+    public static float path_power_req_calc(Direction move_to) {
+        // This method will determine the power cost of the Clean Sweep's return path.
+        ArrayList<RoomNode> charge_path = Navigator.auto_charge_pathfinder();
+        float charge_path_power_req = 0.0f;
+        while (charge_path.size() > 1) {
+            RoomNode charge_node_curr = charge_path.remove(0);
+            RoomNode charge_node_next = charge_path.get(0);
+            charge_node_curr.adj_list_refresh();
+            charge_node_next.adj_list_refresh();
+            charge_path_power_req += power_req_calc(charge_node_curr, charge_node_next);
+        } return charge_path_power_req;
     }
 
     public static float power_req_calc(RoomNode at, RoomNode to) {
@@ -149,85 +168,29 @@ public class Navigator {
         return (node_1_req + node_2_req) / 2.0f;
     }
 
-    public static float breadth_first_calc() {
-        // This method will calculate the weight of the path from the Clean Sweep to its charging station.
+    public static ArrayList<RoomNode> auto_charge_pathfinder() {
+        // This method will find a path from the Clean Sweep to its charging station using a breadth-first approach.
         ArrayList<ArrayList<RoomNode>> path_list = new ArrayList<ArrayList<RoomNode>>();
+        ArrayList<RoomNode> start_path = new ArrayList<RoomNode>();
         ArrayList<RoomNode> visited = new ArrayList<>();
-        path_list.add(curr.get_adj_list());
-        visited.add(curr);
+        start_path.add(curr);
+        path_list.add(start_path);
         while (path_list.size() != 0) {
-            ArrayList<RoomNode> pop_list = path_list.remove(0);
-            RoomNode pop_node = pop_list.get(pop_list.size() - 1);
-            if (!visited.contains(pop_node)) {
-                visited.add(pop_node);
-                if (pop_node.get_position().get_x() == 0 && pop_node.get_position().get_y() == 0) {
-                    // We've made it home!
-                    return 1.0f; // TODO - Return path weight (in power units).
-                }
-                if (pop_node.get_node(Direction.NORTH) != null && !pop_node.get_node(Direction.NORTH).is_obstacle()) {
-                    ArrayList<RoomNode> new_list = pop_list;
-                    // TODO - The path shouldn't be built off of curr.adj_list. Fix this so the path builds correctly.
-                    new_list.add(pop_node.get_node(Direction.NORTH));
-                    path_list.add(new_list);
-                }
-                if (pop_node.get_node(Direction.SOUTH) != null && !pop_node.get_node(Direction.SOUTH).is_obstacle()) {
-                    ArrayList<RoomNode> new_list = pop_list;
-                    // TODO - The path shouldn't be built off of curr.adj_list. Fix this so the path builds correctly.
-                    new_list.add(pop_node.get_node(Direction.SOUTH));
-                    path_list.add(new_list);
-                }
-                if (pop_node.get_node(Direction.EAST) != null && !pop_node.get_node(Direction.EAST).is_obstacle()) {
-                    ArrayList<RoomNode> new_list = pop_list;
-                    // TODO - The path shouldn't be built off of curr.adj_list. Fix this so the path builds correctly.
-                    new_list.add(pop_node.get_node(Direction.EAST));
-                    path_list.add(new_list);
-                }
-                if (pop_node.get_node(Direction.WEST) != null && !pop_node.get_node(Direction.WEST).is_obstacle()) {
-                    ArrayList<RoomNode> new_list = pop_list;
-                    // TODO - The path shouldn't be built off of curr.adj_list. Fix this so the path builds correctly.
-                    new_list.add(pop_node.get_node(Direction.WEST));
-                    path_list.add(new_list);
+            ArrayList<RoomNode> curr_path = path_list.remove(0);
+            RoomNode curr_node = curr_path.get(curr_path.size() - 1);
+            if (!visited.contains(curr_node)) {
+                visited.add(curr_node);
+                if (curr_node.get_position().get_x() == 0 && curr_node.get_position().get_y() == 0)
+                    return curr_path;
+                ArrayList<RoomNode> curr_adj_list = curr_node.get_adj_list();
+                while (curr_adj_list.size() != 0) {
+                    RoomNode to_path = curr_adj_list.remove(0);
+                    ArrayList<RoomNode> new_path = new ArrayList<RoomNode>(curr_path);
+                    new_path.add(to_path);
+                    path_list.add(new_path);
                 }
             }
-        } return -1.0f; // There is no path!
-    }
-
-    public static float greedy_best_first_calc() {
-        // This method will calculate the weight of the path from the Clean Sweep to its charging station.
-        ArrayList<RoomNode> to_explore = new ArrayList<RoomNode>();
-        ArrayList<RoomNode> explored = new ArrayList<RoomNode>();
-        to_explore.add(curr);
-        float weight = 0.0f;
-        while(true) {
-            if (to_explore.size() == 0)
-                return -1.0f; // There is no path!
-            RoomNode next = to_explore.get(0);
-            to_explore.remove(0); // ?
-            explored.add(next);
-            if (next.get_position().get_x() == 0 && next.get_position().get_y() == 0) {
-                // We've made it home!
-                break; }
-            if (next.get_node(Direction.NORTH) != null)
-                to_explore.add(next.get_node(Direction.NORTH));
-            if (next.get_node(Direction.SOUTH) != null)
-                to_explore.add(next.get_node(Direction.SOUTH));
-            if (next.get_node(Direction.EAST) != null)
-                to_explore.add(next.get_node(Direction.EAST));
-            if (next.get_node(Direction.WEST) != null)
-                to_explore.add(next.get_node(Direction.WEST));
-            // TODO - Sort the 'to_explore' list.
-            ArrayList<RoomNode> to_explore_sorted = new ArrayList<RoomNode>();
-            to_explore_sorted.add(to_explore.get(0));
-            to_explore.remove(to_explore.get(0));
-            // TODO - Weight needs to be added.
-            // TODO - How to backtrace path?
-        } return weight;
-    }
-
-    public static int greedy_eval(RoomNode to_eval) {
-        // The evaluation function for greedy_best_first_calc().
-        // The lower the number, the closer we are to the home position.
-        return to_eval.get_position().get_x() + to_eval.get_position().get_y();
+        } return null; // There is no path.
     }
 
 }
