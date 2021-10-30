@@ -17,6 +17,7 @@ public class RoomNode {
     private RoomNode node_E; // East
     private RoomNode node_W; // West
     private Vector2 position;
+    private ArrayList<RoomNode> adj_list;
 
     public RoomNode(FloorType to_floor, boolean to_obstacle, Vector2 to_position) {
         this.floor = to_floor;
@@ -61,13 +62,38 @@ public class RoomNode {
         switch(dir) {
             case NORTH:
                 this.node_N = node;
+                adj_list_refresh();
+                return;
             case SOUTH:
                 this.node_S = node;
+                adj_list_refresh();
+                return;
             case EAST:
                 this.node_E = node;
+                adj_list_refresh();
+                return;
             case WEST:
                 this.node_W = node;
+                adj_list_refresh();
+                return;
         }
+    }
+
+    public ArrayList<RoomNode> get_adj_list() {
+        return adj_list;
+    }
+
+    public void adj_list_refresh() {
+        ArrayList<RoomNode> new_adj_list = new ArrayList<RoomNode>();
+        if (this.node_N != null && !this.node_N.is_obstacle())
+            new_adj_list.add(this.node_N);
+        if (this.node_S != null && !this.node_S.is_obstacle())
+            new_adj_list.add(this.node_S);
+        if (this.node_E != null && !this.node_E.is_obstacle())
+            new_adj_list.add(this.node_E);
+        if (this.node_W != null && !this.node_W.is_obstacle())
+            new_adj_list.add(this.node_W);
+        this.adj_list = new_adj_list;
     }
 
     public Vector2 get_position() {
