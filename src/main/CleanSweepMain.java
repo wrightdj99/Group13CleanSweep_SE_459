@@ -14,6 +14,7 @@ public class CleanSweepMain {
         // Run demo methods here.
         demo_1();
         demo_2();
+        System.out.println("This is the Clean Sweep Experience");
         // . . . etc.
     }
 
