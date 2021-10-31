@@ -1,6 +1,9 @@
 package main;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -26,6 +29,13 @@ public class UserInterface extends JFrame {
         firstLabel.setVerticalAlignment(SwingConstants.CENTER);
         canvas.add(firstButton);
         //Figuring out the button
+        firstButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                optionMenu();
+                firstFrame.setVisible(false);
+            }
+        });
         //Final frame sets
         firstFrame.setSize(450, 500);
         firstFrame.getContentPane().add(BorderLayout.CENTER, canvas);
@@ -34,7 +44,24 @@ public class UserInterface extends JFrame {
     }
 
     public static void optionMenu() {
-        System.out.println("Option Menu");
+        JFrame newFrame = new JFrame();
+        JPanel newPanel = new JPanel();
+        JLabel newLabel = new JLabel("CLEAN SWEEP DEMO");
+        JLabel demoLabel = new JLabel();
+        newFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        newPanel.setSize(500, 500);
+        newFrame.setSize(500, 500);
+        newFrame.setLayout(new FlowLayout());
+        newPanel.setBackground(Color.MAGENTA);
+        newPanel.add(newLabel);
+        for(int i = 0; i < 9; i++){
+            JLabel out = new JLabel((String.valueOf(i)));
+            out.setBorder(new EmptyBorder(0, 20, 0, 0));
+            newPanel.add(out);
+        }
+        newFrame.add(newPanel);
+        newFrame.setVisible(true);
+
     }
 }
 
