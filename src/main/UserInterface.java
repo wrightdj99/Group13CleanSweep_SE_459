@@ -54,11 +54,6 @@ public class UserInterface extends JFrame {
         newFrame.setLayout(new FlowLayout());
         newPanel.setBackground(Color.MAGENTA);
         newPanel.add(newLabel);
-        for(int i = 0; i < 9; i++){
-            JLabel out = new JLabel((String.valueOf(i)));
-            out.setBorder(new EmptyBorder(0, 20, 0, 0));
-            newPanel.add(out);
-        }
         newFrame.add(newPanel);
         newFrame.setVisible(true);
 
