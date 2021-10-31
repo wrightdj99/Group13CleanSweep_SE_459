@@ -6,6 +6,7 @@ import java.util.*;
 public class CleanSweepMain {
 
     public static RoomNode floor_master; // This is the master floor plan.
+    public static ArrayList<RoomNode> floor_master_list; // This is a list containing all nodes in the floor plan.
     // The master floor plan exists as a mock for testing purposes only.
     // Remember, the starting point is the charging station.
 
@@ -14,6 +15,8 @@ public class CleanSweepMain {
         // Run demo methods here.
         demo_1();
         demo_2();
+        demo_3();
+        demo_4();
         UserInterface ui = new UserInterface();
         // . . . etc.
     }
@@ -49,11 +52,29 @@ public class CleanSweepMain {
         build_1();
         CleanSweep.set_curr_charge(250);
         System.out.println("demo_2");
-        ArrayList<RoomNode> charge_path = Navigator.auto_charge_pathfinder();
+        ArrayList<RoomNode> charge_path = Navigator.pathfinder(new Vector2(0, 0));
         while (charge_path.size() != 0) {
             RoomNode charge_path_node = charge_path.remove(0);
             System.out.println(charge_path_node.get_position().toString());
         } System.out.println("\n");
+    }
+
+    public static void demo_3() {
+        // Execution of cleaning cycle.
+        build_1();
+        CleanSweep.set_curr_charge(250);
+        System.out.println("demo_3");
+        CleanSweep.clean_cycle();
+        System.out.println("\n");
+    }
+
+    public static void demo_4() {
+        // Execution of cleaning cycle with automatic return to charging station.
+        build_1();
+        CleanSweep.set_curr_charge(35);
+        System.out.println("demo_4");
+        CleanSweep.clean_cycle();
+        System.out.println("\n");
     }
 
     public static void build_1() {
@@ -161,6 +182,26 @@ public class CleanSweepMain {
 
         node_3_0.set_node(Direction.WEST, node_2_0);
         node_3_0.set_node(Direction.NORTH, node_3_1);
+
+        // ---
+
+        floor_master_list = new ArrayList<RoomNode>();
+        floor_master_list.add(node_0_0);
+        floor_master_list.add(node_0_1);
+        floor_master_list.add(node_0_2);
+        floor_master_list.add(node_0_3);
+        floor_master_list.add(node_1_0);
+        floor_master_list.add(node_1_1);
+        floor_master_list.add(node_1_2);
+        floor_master_list.add(node_1_3);
+        floor_master_list.add(node_2_0);
+        floor_master_list.add(node_2_1);
+        floor_master_list.add(node_2_2);
+        floor_master_list.add(node_2_3);
+        floor_master_list.add(node_3_0);
+        floor_master_list.add(node_3_1);
+        floor_master_list.add(node_3_2);
+        floor_master_list.add(node_3_3);
 
         // ---
 
