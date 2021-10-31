@@ -16,7 +16,7 @@ public class CleanSweepMain {
         demo_1();
         demo_2();
         demo_3();
-        // demo_4();
+        demo_4();
         UserInterface ui = new UserInterface();
         // . . . etc.
     }
@@ -69,11 +69,11 @@ public class CleanSweepMain {
     }
 
     public static void demo_4() {
-        // TODO - Execution of cleaning cycle with automatic return to charging station.
+        // Execution of cleaning cycle with automatic return to charging station.
         build_1();
-        CleanSweep.set_curr_charge(250);
+        CleanSweep.set_curr_charge(35);
         System.out.println("demo_4");
-        // TODO.
+        CleanSweep.clean_cycle();
         System.out.println("\n");
     }
 

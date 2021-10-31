@@ -6,7 +6,6 @@ import java.util.*;
 public class Navigator {
 
     // This class will navigate the Clean Sweep.
-    // private static RoomNode curr_prev; // Previous node and position.
     private static RoomNode curr; // Current node and position.
     private static int invalid; // How many times the Clean Sweep failed to move consecutively.
 
@@ -26,21 +25,20 @@ public class Navigator {
         }
         float power_req = path_power_req_calc(move_to); // How much power do we need to return to the charging station?
         // System.out.println(power_req); // For debug purposes.
-        // TODO - Some of the below code might get a bit redundant. Might be worth cleaning up a little bit.
+        // TODO - Some of the below code gets a bit redundant. Might be worth cleaning up.
         RoomNode next = curr.get_node(move_to); // Checking if there's an obstacle ahead or not.
         if (next != null) { // Is there a node ahead at all?
             if (!next.is_obstacle()) { // Is the node ahead an obstacle?
                 // It's not! So we can move.
                 float charge_after_move = CleanSweep.get_curr_charge() - power_req_calc(curr, next);
-                if (charge_after_move < power_req) { // But do we have enough power?
+                if (charge_after_move < power_req && !CleanSweep.on_return_path) { // But do we have enough power?
                     return false;
-                    // TODO - Return to the charging station.
-                    // Whatever is calling move(), it can use auto_charge_pathfinder() to chart a course back.
                 }
                 // If we could make a system call to get the Clean Sweep to physically move, we'd do that here.
                 // curr_prev = curr;
                 curr = next;
                 invalid = 0;
+                CleanSweep.set_curr_charge(CleanSweep.get_curr_charge() - power_req_calc(curr, next));
                 return true; // We let the caller know that we moved successfully.
             } else { // The node ahead is an obstacle . . .
                 return false; // We let the caller know that we can't move in that direction.
@@ -52,16 +50,15 @@ public class Navigator {
             if (discovered != null) { // Is there a node there at all?
                 if (!discovered.is_obstacle()) { // Is the node an obstacle?
                     // It's not! So we can move.
-                    float charge_after_move = CleanSweep.get_curr_charge() - power_req_calc(curr, next);
-                    if (charge_after_move < power_req) { // But do we have enough power?
+                    float charge_after_move = CleanSweep.get_curr_charge() - power_req_calc(curr, discovered);
+                    if (charge_after_move < power_req && !CleanSweep.on_return_path) { // But do we have enough power?
                         return false;
-                        // TODO - Return to the charging station.
-                        // Whatever is calling move(), it can use auto_charge_pathfinder() to chart a course back.
                     }
                     // If we could make a system call to get the Clean Sweep to physically move, we'd do that here.
                     // curr_prev = curr;
                     curr = discovered;
                     invalid = 0;
+                    CleanSweep.set_curr_charge(CleanSweep.get_curr_charge() - power_req_calc(curr, discovered));
                     return true; // We let the caller know that we moved successfully.
                 }
                 // TODO - Right here we'd want to add our newly discovered node to the Clean Sweep's local floor plan.
