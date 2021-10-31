@@ -72,6 +72,18 @@ public class Navigator {
         }
     }
 
+    public static Direction get_next_dir(RoomNode next) {
+        if (curr.get_node(Direction.NORTH) == next)
+            return Direction.NORTH;
+        if (curr.get_node(Direction.SOUTH) == next)
+            return Direction.SOUTH;
+        if (curr.get_node(Direction.EAST) == next)
+            return Direction.EAST;
+        if (curr.get_node(Direction.WEST) == next)
+            return Direction.WEST;
+        return null;
+    }
+
     public static boolean validate() {
         return true; // TODO - This should somehow verify the Clean Sweep's movements.
     }
@@ -150,7 +162,7 @@ public class Navigator {
 
     public static float path_power_req_calc(Direction move_to) {
         // This method will determine the power cost of the Clean Sweep's return path.
-        ArrayList<RoomNode> charge_path = Navigator.auto_charge_pathfinder();
+        ArrayList<RoomNode> charge_path = Navigator.pathfinder(new Vector2(0, 0));
         float charge_path_power_req = 0.0f;
         while (charge_path.size() > 1) {
             RoomNode charge_node_curr = charge_path.remove(0);
@@ -168,8 +180,8 @@ public class Navigator {
         return (node_1_req + node_2_req) / 2.0f;
     }
 
-    public static ArrayList<RoomNode> auto_charge_pathfinder() {
-        // This method will find a path from the Clean Sweep to its charging station using a breadth-first approach.
+    public static ArrayList<RoomNode> pathfinder(Vector2 path_to) {
+        // This method will find a path to a given position using a breadth-first approach.
         ArrayList<ArrayList<RoomNode>> path_list = new ArrayList<ArrayList<RoomNode>>();
         ArrayList<RoomNode> start_path = new ArrayList<RoomNode>();
         ArrayList<RoomNode> visited = new ArrayList<>();
@@ -180,8 +192,10 @@ public class Navigator {
             RoomNode curr_node = curr_path.get(curr_path.size() - 1);
             if (!visited.contains(curr_node)) {
                 visited.add(curr_node);
-                if (curr_node.get_position().get_x() == 0 && curr_node.get_position().get_y() == 0)
+                if (curr_node.get_position().get_x() == path_to.get_x() &&
+                        curr_node.get_position().get_y() == path_to.get_y())
                     return curr_path;
+                curr_node.adj_list_refresh(); // ?
                 ArrayList<RoomNode> curr_adj_list = curr_node.get_adj_list();
                 while (curr_adj_list.size() != 0) {
                     RoomNode to_path = curr_adj_list.remove(0);
