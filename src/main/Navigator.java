@@ -30,7 +30,7 @@ public class Navigator {
         if (next != null) { // Is there a node ahead at all?
             if (!next.is_obstacle()) { // Is the node ahead an obstacle?
                 // It's not! So we can move.
-                float charge_after_move = CleanSweep.get_curr_charge() - power_req_calc(curr, next);
+                float charge_after_move = Battery.get_curr_charge() - Battery.power_req_calc(curr, next);
                 if (charge_after_move < power_req && !CleanSweep.on_return_path) { // But do we have enough power?
                     return false;
                 }
@@ -38,7 +38,7 @@ public class Navigator {
                 // curr_prev = curr;
                 curr = next;
                 invalid = 0;
-                CleanSweep.set_curr_charge(CleanSweep.get_curr_charge() - power_req_calc(curr, next));
+                Battery.set_curr_charge(Battery.get_curr_charge() - Battery.power_req_calc(curr, next));
                 return true; // We let the caller know that we moved successfully.
             } else { // The node ahead is an obstacle . . .
                 return false; // We let the caller know that we can't move in that direction.
@@ -50,7 +50,7 @@ public class Navigator {
             if (discovered != null) { // Is there a node there at all?
                 if (!discovered.is_obstacle()) { // Is the node an obstacle?
                     // It's not! So we can move.
-                    float charge_after_move = CleanSweep.get_curr_charge() - power_req_calc(curr, discovered);
+                    float charge_after_move = Battery.get_curr_charge() - Battery.power_req_calc(curr, discovered);
                     if (charge_after_move < power_req && !CleanSweep.on_return_path) { // But do we have enough power?
                         return false;
                     }
@@ -58,7 +58,7 @@ public class Navigator {
                     // curr_prev = curr;
                     curr = discovered;
                     invalid = 0;
-                    CleanSweep.set_curr_charge(CleanSweep.get_curr_charge() - power_req_calc(curr, discovered));
+                    Battery.set_curr_charge(Battery.get_curr_charge() - Battery.power_req_calc(curr, discovered));
                     return true; // We let the caller know that we moved successfully.
                 }
                 // TODO - Right here we'd want to add our newly discovered node to the Clean Sweep's local floor plan.
@@ -166,15 +166,8 @@ public class Navigator {
             RoomNode charge_node_next = charge_path.get(0);
             charge_node_curr.adj_list_refresh();
             charge_node_next.adj_list_refresh();
-            charge_path_power_req += power_req_calc(charge_node_curr, charge_node_next);
+            charge_path_power_req += Battery.power_req_calc(charge_node_curr, charge_node_next);
         } return charge_path_power_req;
-    }
-
-    public static float power_req_calc(RoomNode at, RoomNode to) {
-        // This will calculate the amount of power needed to move from one node to another.
-        float node_1_req = FloorType.floor_conv(at.get_floor());
-        float node_2_req = FloorType.floor_conv(to.get_floor());
-        return (node_1_req + node_2_req) / 2.0f;
     }
 
     public static ArrayList<RoomNode> pathfinder(Vector2 path_to) {

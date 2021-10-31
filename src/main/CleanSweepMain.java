@@ -24,7 +24,7 @@ public class CleanSweepMain {
     public static void demo_1() {
         // Manual traversal of the floor plan.
         build_1();
-        CleanSweep.set_curr_charge(250);
+        Battery.set_curr_charge(250);
         System.out.println("demo_1");
         System.out.println(Navigator.get_curr().get_position().toString()); // (3, 1)
         System.out.println(Navigator.move(Direction.EAST));                 // Can't move east (out of bounds).
@@ -50,7 +50,7 @@ public class CleanSweepMain {
     public static void demo_2() {
         // Automatic pathfinding to charging station.
         build_1();
-        CleanSweep.set_curr_charge(250);
+        Battery.set_curr_charge(250);
         System.out.println("demo_2");
         ArrayList<RoomNode> charge_path = Navigator.pathfinder(new Vector2(0, 0));
         while (charge_path.size() != 0) {
@@ -62,7 +62,7 @@ public class CleanSweepMain {
     public static void demo_3() {
         // Execution of cleaning cycle.
         build_1();
-        CleanSweep.set_curr_charge(250);
+        Battery.set_curr_charge(250);
         System.out.println("demo_3");
         CleanSweep.clean_cycle();
         System.out.println("\n");
@@ -71,7 +71,7 @@ public class CleanSweepMain {
     public static void demo_4() {
         // Execution of cleaning cycle with automatic return to charging station.
         build_1();
-        CleanSweep.set_curr_charge(35);
+        Battery.set_curr_charge(35);
         System.out.println("demo_4");
         CleanSweep.clean_cycle();
         System.out.println("\n");

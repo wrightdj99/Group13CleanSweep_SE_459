@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 public class CleanSweep {
 
-    private static float curr_charge;   // TODO - Is this charge being managed and calculated correctly?
-                                        // Verify power management in Sprint 3.
-
     private static RoomNode floor_local; // This is the Clean Sweep's local floor plan.
     private static ArrayList<RoomNode> floor_local_list; // This is a list containing all nodes in the floor plan.
     // TODO - When the Clean Sweep first wakes up, it should assign its position to floor_local.
@@ -65,14 +62,6 @@ public class CleanSweep {
 
     public static void set_floor_local_list(ArrayList<RoomNode> floor_local_list) {
         CleanSweep.floor_local_list = floor_local_list;
-    }
-
-    public static float get_curr_charge() {
-        return curr_charge;
-    }
-
-    public static void set_curr_charge(float curr_charge) {
-        CleanSweep.curr_charge = curr_charge;
     }
 
 }
