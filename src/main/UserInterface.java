@@ -43,8 +43,6 @@ public class UserInterface extends JFrame {
     }
 
     public static void optionMenu() {
-        CleanSweep cleanSweep = new CleanSweep();
-        CleanSweepMain cleanSweepMain = new CleanSweepMain();
         ArrayList<RoomNode> rN = CleanSweepMain.floor_master_list;
         JFrame newFrame = new JFrame();
         JPanel newPanel = new JPanel();
@@ -58,16 +56,15 @@ public class UserInterface extends JFrame {
         newFrame.setLayout(new FlowLayout());
         newPanel.setBackground(Color.MAGENTA);
         for(RoomNode r : rN){
-            JPanel outputOfCS = new JPanel(new GridLayout(0, 1));
+            JPanel outputOfCS = new JPanel(new FlowLayout());
+            outputOfCS.setBounds(100, 100, 100, 100);
             JLabel outToScreen = new JLabel();
             JLabel newLine = new JLabel("\n");
+            outToScreen.setText("VISITED NODE AT: " + r.get_position());
+            newPanel.add(outputOfCS);
             newPanel.add(outToScreen);
             newPanel.add(newLine);
             newPanel.add(outputOfCS);
-            outToScreen.setText("VISITED NODE AT: " + r.get_position());
-            outputOfCS.add(outToScreen);
-            System.out.println("TO THE SCREEN!!!!!!!!!");
-            System.out.println(r);
         }
         newPanel.add(newLabel);
         newFrame.add(newPanel);
