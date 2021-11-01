@@ -46,29 +46,50 @@ public class UserInterface extends JFrame {
         ArrayList<RoomNode> rN = CleanSweepMain.floor_master_list;
         JFrame newFrame = new JFrame();
         JPanel newPanel = new JPanel();
-        JLabel newLabel = new JLabel("CLEAN SWEEP DEMO:" + "\n\n");
+        JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP DEMO</h1><br><br></html>");
         JLabel demoLabel = new JLabel();
-        demoLabel.setText("l");
+        //demoLabel.setText("l");
         newFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         newPanel.setSize(500, 500);
         newFrame.setSize(500, 500);
         newLabel.setSize(300, 300);
-        newFrame.setLayout(new FlowLayout());
+        //newFrame.setLayout(new FlowLayout());
         newPanel.setBackground(Color.MAGENTA);
-        for(RoomNode r : rN){
-            JPanel outputOfCS = new JPanel(new FlowLayout());
-            outputOfCS.setBounds(100, 100, 100, 100);
-            JLabel outToScreen = new JLabel();
-            JLabel newLine = new JLabel("\n");
-            outToScreen.setText("VISITED NODE AT: " + r.get_position());
-            newPanel.add(outputOfCS);
-            newPanel.add(outToScreen);
-            newPanel.add(newLine);
-            newPanel.add(outputOfCS);
-        }
         newPanel.add(newLabel);
+        for(RoomNode r : rN){
+            int timeToSwitch = 0;
+            JLabel zerosPanel = new JLabel();
+            JLabel foursPanel = new JLabel();
+            JLabel eightsPanel = new JLabel();
+            JLabel twelvesPanel = new JLabel();
+            JLabel sixteensPanel = new JLabel();
+            if(r != null){
+                timeToSwitch++;
+                if(timeToSwitch >= 0 && timeToSwitch <= 4){
+                    if(timeToSwitch == 0){
+                        zerosPanel.setText("STARTING NODE: " + r.get_position().toString());
+                    }
+                    else{
+                        foursPanel.setText("VISITED NODE:" + r.get_position().toString());
+                    }
+                }
+                else if(timeToSwitch >= 5 && timeToSwitch <= 8){
+                    eightsPanel.setText("VISITED NODE: " + r.get_position().toString());
+                }
+                else if(timeToSwitch >= 9 && timeToSwitch <= 12){
+                    twelvesPanel.setText("VISITED NODE: " + r.get_position().toString());
+                }
+                else{
+                    sixteensPanel.setText("VISITED NODE: " + r.get_position().toString());
+                }
+                newPanel.add(zerosPanel);
+                newPanel.add(foursPanel);
+                newPanel.add(eightsPanel);
+                newPanel.add(twelvesPanel);
+                newPanel.add(sixteensPanel);
+            }
+        }
         newFrame.add(newPanel);
-        newPanel.add(demoLabel);
         newFrame.setVisible(true);
 
     }
