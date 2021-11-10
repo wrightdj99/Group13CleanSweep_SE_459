@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class UserInterface extends JFrame {
     public UserInterface(){
@@ -15,7 +16,7 @@ public class UserInterface extends JFrame {
         JLabel firstLabel = new JLabel();
         JButton firstButton = new JButton("START");
         //Adding to canvas
-        canvas.setBackground(Color.MAGENTA);
+        canvas.setBackground(Color.WHITE);
         canvas.add(firstLabel);
         firstFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //Configuring canvas elements
@@ -43,11 +44,40 @@ public class UserInterface extends JFrame {
     }
 
     public static void optionMenu() {
+        JFrame optionFrame = new JFrame("ROOM SELECTION MENU");
+        JPanel optionCanvas = new JPanel();
+        optionCanvas.setLayout(new BoxLayout(optionCanvas, BoxLayout.PAGE_AXIS));
+        JLabel firstLabel = new JLabel();
+        JLabel secondLabel = new JLabel();
+        JButton roomThree = new JButton("Room Title: 'LivingRoom'");
+        /*EDIT BELOW THIS COMMENT*/
+        firstLabel.setText("Which room would you like to see the cleaning history of?");
+        secondLabel.setText("Rooms registered: ");
+        firstLabel.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        secondLabel.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        roomThree.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                thirdRoom();
+            }
+        });
+        /*END CONFIGURATION*/
+        optionCanvas.add(firstLabel);
+        optionCanvas.add(secondLabel);
+        optionCanvas.add(roomThree);
+        optionFrame.add(optionCanvas);
+        optionFrame.setSize(500, 500);
+        optionFrame.setVisible(true);
+
+    }
+
+    public static void thirdRoom(){
         ArrayList<RoomNode> rN = CleanSweepMain.floor_master_list;
         JFrame newFrame = new JFrame();
         JPanel newPanel = new JPanel();
-        JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP DEMO</h1><br><br></html>");
-        JLabel demoLabel = new JLabel();
+        JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP ROOM 3</h1><br><br></html>");
+
+        JButton demoLabel = new JButton("Back To Room Selection");
         //demoLabel.setText("l");
         newFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         newPanel.setSize(500, 500);
@@ -56,32 +86,41 @@ public class UserInterface extends JFrame {
         //newFrame.setLayout(new FlowLayout());
         newPanel.setBackground(Color.MAGENTA);
         newPanel.add(newLabel);
-        for(RoomNode r : rN){
+        ArrayList<RoomNode> reformedRoom = new ArrayList<RoomNode>();
+        for (RoomNode r : rN) {
+            CleanSweepMain.demo_3();
+            if (r.is_obstacle()) {
+
+            } else {
+                reformedRoom.add(r);
+            }
+        }
+
+        //Collections.reverse(reformedRoom);
+        for (RoomNode r : reformedRoom) {
+            //CleanSweepMain.demo_1();
             int timeToSwitch = 0;
             JLabel zerosPanel = new JLabel();
             JLabel foursPanel = new JLabel();
             JLabel eightsPanel = new JLabel();
             JLabel twelvesPanel = new JLabel();
             JLabel sixteensPanel = new JLabel();
-            if(r != null){
+            if (r != null) {
                 timeToSwitch++;
-                if(timeToSwitch >= 0 && timeToSwitch <= 4){
-                    if(timeToSwitch == 0){
-                        zerosPanel.setText("STARTING NODE: " + r.get_position().toString());
-                    }
-                    else{
+                if (timeToSwitch >= 0 && timeToSwitch <= 4) {
+                    if (timeToSwitch == 0) {
+                        zerosPanel.setText("CHARGING STATION NODE: " + r.get_position().toString());
+                    } else {
                         foursPanel.setText("VISITED NODE:" + r.get_position().toString());
                     }
-                }
-                else if(timeToSwitch >= 5 && timeToSwitch <= 8){
+                } else if (timeToSwitch >= 5 && timeToSwitch <= 8) {
                     eightsPanel.setText("VISITED NODE: " + r.get_position().toString());
-                }
-                else if(timeToSwitch >= 9 && timeToSwitch <= 12){
+                } else if (timeToSwitch >= 9 && timeToSwitch <= 12) {
                     twelvesPanel.setText("VISITED NODE: " + r.get_position().toString());
-                }
-                else{
+                } else {
                     sixteensPanel.setText("VISITED NODE: " + r.get_position().toString());
                 }
+
                 newPanel.add(zerosPanel);
                 newPanel.add(foursPanel);
                 newPanel.add(eightsPanel);
@@ -89,9 +128,17 @@ public class UserInterface extends JFrame {
                 newPanel.add(sixteensPanel);
             }
         }
+        demoLabel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                optionMenu();
+            }
+        });
+        newPanel.add(demoLabel);
         newFrame.add(newPanel);
         newFrame.setVisible(true);
 
     }
-}
+
+    }
 
