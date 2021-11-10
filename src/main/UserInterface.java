@@ -21,7 +21,6 @@ public class UserInterface extends JFrame {
         firstFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //Configuring canvas elements
         firstLabel.setText("THE CLEAN SWEEP EXPERIENCE");
-        firstLabel.setLocation(400, 100);
         firstLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
         firstLabel.setVerticalAlignment(SwingConstants.CENTER);
         canvas.add(firstButton);
@@ -30,7 +29,7 @@ public class UserInterface extends JFrame {
         firstButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                optionMenu();
+                loginScreen();
                 firstFrame.setVisible(false);
             }
         });
@@ -41,6 +40,18 @@ public class UserInterface extends JFrame {
         firstFrame.setVisible(true);
 
         CleanSweep cleanSweep = new CleanSweep();
+    }
+
+    public static void loginScreen(){
+        JFrame loginFrame = new JFrame("Login");
+        JTextField username = new JTextField("Username");
+        username.setBounds(50, 150, 50, 30);
+        /*START EDITING HERE*/
+
+        /*END EDITING HERE*/
+        loginFrame.add(username);
+        loginFrame.setSize(400, 400);
+        loginFrame.setVisible(true);
     }
 
     public static void optionMenu() {
