@@ -1,10 +1,12 @@
-package main;
+package UI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
+import main.CleanSweep;
+import main.CleanSweepMain;
+import main.RoomNode;
 
 public class UserInterface extends JFrame {
     public UserInterface(){
@@ -30,7 +32,8 @@ public class UserInterface extends JFrame {
         firstButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                optionMenu();
+//                optionMenu();
+                loginRegisterMenu();
                 firstFrame.setVisible(false);
             }
         });
@@ -41,6 +44,40 @@ public class UserInterface extends JFrame {
         firstFrame.setVisible(true);
 
         CleanSweep cleanSweep = new CleanSweep();
+    }
+
+    public static void loginRegisterMenu(){
+        JFrame loginRegisterFrame = new JFrame("LOGIN / REGISTER");
+        JPanel loginRegisterCanvas = new JPanel();
+        loginRegisterCanvas.setLayout(new BoxLayout(loginRegisterCanvas, BoxLayout.PAGE_AXIS));
+
+        JLabel firstLabel = new JLabel();
+        JLabel secondLabel = new JLabel();
+
+        JButton register = new JButton("Register");
+        JButton login = new JButton("Login");
+
+        firstLabel.setText("New user? Click Register");
+        secondLabel.setText("Returning user? Click Login");
+
+        register.addActionListener(e -> {
+            RegisterUI.createAndShowGUI();
+            loginRegisterFrame.setVisible(false);
+        }) ;
+
+        login.addActionListener(e -> {
+            LoginUI.createAndShowGUI();
+            loginRegisterFrame.setVisible(false);
+        });
+
+        loginRegisterCanvas.add(firstLabel);
+        loginRegisterCanvas.add(secondLabel);
+        loginRegisterCanvas.add(register);
+        loginRegisterCanvas.add(login);
+        loginRegisterFrame.add(loginRegisterCanvas);
+        loginRegisterFrame.setSize(500,500);
+        loginRegisterFrame.setVisible(true);
+
     }
 
     public static void optionMenu() {
