@@ -163,25 +163,27 @@ public class CleanSweepMain {
         ArrayList<Account> list = new ArrayList<>();
 
         try {
-            Gson gson = new Gson();
-            JsonReader reader = new JsonReader(new FileReader("Accounts.json"));
+            File file = new File ("Accounts.json");
+            if (file.exists()) {
+                JsonReader reader = new JsonReader(new FileReader("Accounts.json"));
 
-            reader.beginArray();
+                reader.beginArray();
 
-            while (reader.hasNext()){
-                reader.beginObject();
-                reader.nextName();
-                String email = reader.nextString();
-                reader.nextName();
-                String password = reader.nextString();
+                while (reader.hasNext()) {
+                    reader.beginObject();
+                    reader.nextName();
+                    String email = reader.nextString();
+                    reader.nextName();
+                    String password = reader.nextString();
 
-                list.add(new Account(email, password));
-                reader.endObject();
+                    list.add(new Account(email, password));
+                    reader.endObject();
+                }
+
+                // close reader
+                reader.endArray();
+                reader.close();
             }
-
-            // close reader
-            reader.endArray();
-            reader.close();
 
         } catch (Exception e){
             e.printStackTrace();
