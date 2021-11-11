@@ -1,7 +1,13 @@
 package main;
 
-import java.io.*;
-import java.util.*;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class CleanSweepMain {
 
@@ -15,7 +21,11 @@ public class CleanSweepMain {
 
     // The control system's entry point.
     public static void main(String[] args) {
-        // User login will happen first.
+        // put contents of Accounts.json into accountList
+        accountList.clear();
+        accountList.addAll(loadFile());
+
+        // User login
         accountRegistrationOrLogin();
 
         // Run demo methods here.
@@ -31,12 +41,6 @@ public class CleanSweepMain {
         // asks the user if they have an existing account or if they would like to register a new account.
         // It then calls either login() or register()
 
-        // creating accounts for testing purposes
-        accountList.add(0, new main.Account("colin@mail.com", "123")); // tmp user
-        accountList.add(0, new main.Account("aneri@mail.com", "123"));
-        accountList.add(0, new main.Account("brandon@mail.com", "123"));
-        accountList.add(0, new main.Account("daniel@mail.com", "123"));
-
         // ask the user if they're returning users, AKA already registered an account
         boolean invalidInput = true;
         while (invalidInput) {
@@ -49,7 +53,7 @@ public class CleanSweepMain {
                 invalidInput = false;
                 register();
             } else {
-                System.out.print("Invalid input. Please enter 'Y' or 'N'\n");
+                System.out.print("Invalid input. Please enter Yes(Y) or No(N)\n");
             }
         }
         scanner.close();
@@ -86,14 +90,10 @@ public class CleanSweepMain {
 
             if (password.equals(confirmPassword)) {
                 passwordsDoNotMatch = false; // causes while loop to stop.
-
-                // check if email is null somehow.
-                if (email != null) {
-                    accountList.add(new main.Account(email, password));
-                    System.out.print("\nAccount successfully created!\n\n");
-                } else {
-                    System.out.print("\nemail was null somehow\n\n");
-                }
+                
+                accountList.add(new Account(email, password));
+                saveAccounts();
+                System.out.print("\nAccount successfully created!\n\n");
             } else {
                 System.out.print("Passwords do not match, try again.\n");
             }
@@ -141,8 +141,7 @@ public class CleanSweepMain {
     }
 
     public static Integer emailPosition(String email) {
-        int pos;
-        for (pos = 0; pos < accountList.size(); pos++) {
+        for (int pos = 0; pos < accountList.size(); pos++) {
             main.Account a = accountList.get(pos);
             if (a.getEmail().equals(email)){
                 return pos;
@@ -157,7 +156,52 @@ public class CleanSweepMain {
             return true;
 
         return false;
+    }
 
+    /* For JSON file loading. Creates the accountList arraylist from the JSON file. */
+    public static ArrayList<Account> loadFile(){
+        ArrayList<Account> list = new ArrayList<>();
+
+        try {
+            Gson gson = new Gson();
+            JsonReader reader = new JsonReader(new FileReader("Accounts.json"));
+
+            reader.beginArray();
+
+            while (reader.hasNext()){
+                reader.beginObject();
+                reader.nextName();
+                String email = reader.nextString();
+                reader.nextName();
+                String password = reader.nextString();
+
+                list.add(new Account(email, password));
+                reader.endObject();
+            }
+
+            // close reader
+            reader.endArray();
+            reader.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public static void saveAccounts(){
+        // creates the file Accounts.json and prints the contents of accountList to the file.
+
+        try {
+            FileWriter writer = new FileWriter(new File("Accounts.json"));
+            Gson gson = new Gson();
+            gson.toJson(accountList, writer);
+            writer.flush();
+            writer.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void demo_1() {
