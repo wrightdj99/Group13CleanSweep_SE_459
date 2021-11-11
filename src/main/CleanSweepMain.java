@@ -26,9 +26,6 @@ public class CleanSweepMain {
         accountList.clear();
         accountList.addAll(loadFile());
 
-        // User login
-        //accountRegistrationOrLogin();
-
         // Run demo methods here.
         demo_1();
         demo_2();
