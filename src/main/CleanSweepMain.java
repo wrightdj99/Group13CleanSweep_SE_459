@@ -1,5 +1,6 @@
 package main;
 
+import UI.UserInterface;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import java.io.File;
@@ -21,12 +22,12 @@ public class CleanSweepMain {
 
     // The control system's entry point.
     public static void main(String[] args) {
-        // put contents of Accounts.json into accountList
+        // If accounts have been made, put contents of Accounts.json into accountList.
         accountList.clear();
         accountList.addAll(loadFile());
 
         // User login
-        accountRegistrationOrLogin();
+        //accountRegistrationOrLogin();
 
         // Run demo methods here.
         demo_1();
@@ -37,110 +38,10 @@ public class CleanSweepMain {
         // . . . etc.
     }
 
-    public static void accountRegistrationOrLogin(){
-        // asks the user if they have an existing account or if they would like to register a new account.
-        // It then calls either login() or register()
-
-        // ask the user if they're returning users, AKA already registered an account
-        boolean invalidInput = true;
-        while (invalidInput) {
-            System.out.print("Returning user? (Y/N) ");
-            String yesOrNo = scanner.nextLine();
-            if (yesOrNo.equals("Y")) {
-                invalidInput = false;
-                login();
-            } else if (yesOrNo.equals("N")) {
-                invalidInput = false;
-                register();
-            } else {
-                System.out.print("Invalid input. Please enter Yes(Y) or No(N)\n");
-            }
-        }
-        scanner.close();
-    }
-
-    public static void register(){
-        // Asks users for their email, a password, and to confirm password. If password and
-        // confirmed password are the same, their account is created and added to accountList.
-
-        String email = null, password;
-
-        // Check if user input a string containing both '@' and '.com'
-        boolean invalidEmail = true;
-        while(invalidEmail) {
-            System.out.print("Enter Email: ");
-            email = scanner.nextLine().toLowerCase(Locale.ROOT);
-            if (email.contains("@") && email.contains(".")) { // not a good way to check for email, will update if we work with email functionality.
-                invalidEmail = false; // causes while loop to stop
-            } else {
-                System.out.print("Please enter valid email containing '@' and '.com'\n");
-            }
-        }
-
-        // User inputs a password and confirms password. Check if they're the same.
-        boolean passwordsDoNotMatch = true;
-
-        while (passwordsDoNotMatch) {
-
-            System.out.print("Create New Password: ");
-            password = scanner.nextLine();
-
-            System.out.print("Confirm Password: ");
-            String confirmPassword = scanner.nextLine();
-
-            if (password.equals(confirmPassword)) {
-                passwordsDoNotMatch = false; // causes while loop to stop.
-                
-                accountList.add(new Account(email, password));
-                saveAccounts();
-                System.out.print("\nAccount successfully created!\n\n");
-            } else {
-                System.out.print("Passwords do not match, try again.\n");
-            }
-        }
-
-    }
-
-    public static void login() {
-        // asks users to login with their email and password.
-        // Email must be connected to an account in accountList.
-        // Password must be associated with the specific account the email is connected to.
-        // --> doesn't handle separate accounts with the same email.
-        boolean invalidEmail = true;
-        boolean invalidPassword = true;
-
-        String email, password;
-        Integer pos = null; // used to check position in accountList. Updated using emailPosition(). If null, no account with that email exists.
-
-        // check if email exists in accountList and get position if it does exist.
-        while (invalidEmail) {
-            System.out.print("Enter Email: ");
-            email = scanner.nextLine();
-
-            pos = emailPosition(email);
-
-            if (pos == null) {
-                System.out.print("Email doesn't exist, try again.\n");
-            } else {
-                invalidEmail = false;
-            }
-        }
-
-        // user will enter the password associated with their email.
-        while (invalidPassword) {
-            System.out.print("Enter Password: ");
-            // check if password is correct
-            password = scanner.nextLine();
-            if (passwordCorrect(password, pos)) {
-                invalidPassword = false;
-                System.out.print("\nLogin successful!\n\n");
-            } else {
-                System.out.print("Wrong password, try again.\n");
-            }
-        }
-    }
-
     public static Integer emailPosition(String email) {
+        // Used when logging in to check if the email exists.
+        // If it does, it returns the position in the array list accountsList
+
         for (int pos = 0; pos < accountList.size(); pos++) {
             main.Account a = accountList.get(pos);
             if (a.getEmail().equals(email)){
@@ -151,6 +52,9 @@ public class CleanSweepMain {
     }
 
     public static boolean passwordCorrect(String password, int pos){
+        // to check if password is associated with the email found at the account
+        // in accountList's position 'pos'
+
         main.Account a = accountList.get(pos);
         if (password.equals(a.getPassword()))
             return true;
@@ -158,8 +62,10 @@ public class CleanSweepMain {
         return false;
     }
 
-    /* For JSON file loading. Creates the accountList arraylist from the JSON file. */
+
     public static ArrayList<Account> loadFile(){
+        /* For JSON file loading. Creates the accountList arraylist from the JSON file. */
+
         ArrayList<Account> list = new ArrayList<>();
 
         try {
@@ -204,6 +110,11 @@ public class CleanSweepMain {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static void getAccountFromUI(Account account){
+        accountList.add(account);
+        saveAccounts();
     }
 
     public static void demo_1() {
