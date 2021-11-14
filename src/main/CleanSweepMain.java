@@ -143,7 +143,7 @@ public class CleanSweepMain {
     public static void demo_2() {
         // Automatic pathfinding to charging station.
         System.out.println("\ndemo_2");
-        System.out.println("Demonstration of automatic pathfinding to charging station.");
+        System.out.println("Demonstration of pathfinding to charging station.");
         System.out.println("Current Position: (3, 1)");
         System.out.println("Target Position: (0, 0)");
         System.out.println("Starting demo . . .");
