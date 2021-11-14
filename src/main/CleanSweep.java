@@ -25,10 +25,16 @@ public class CleanSweep {
                     RoomNode next_in_curr_path = path_to_next.remove(0);
                     if (!Navigator.move(Navigator.get_next_dir(next_in_curr_path))) {
                         // We're assuming here that false was returned because the Clean Sweep is low on power.
-                        System.out.println("Low power. Returning to charging station.");
+                        System.out.println("Low power detected. Returning to charging station.");
                         ArrayList<RoomNode> to_home_queue = new ArrayList<RoomNode>();
-                        to_home_queue.add(cycle_queue.get(cycle_queue.size() - 1));
-                        cycle_queue = to_home_queue;
+                        if (next_in_cycle.get_position().get_x() == 0 && next_in_cycle.get_position().get_y() == 0) {
+                            to_home_queue.add(next_in_cycle);
+                            cycle_queue = to_home_queue;
+                        }
+                        else {
+                            to_home_queue.add(cycle_queue.get(cycle_queue.size() - 1));
+                            cycle_queue = to_home_queue;
+                        }
                         on_return_path = true;
                         break;
                     } // System.out.println("Moving . . . " + Navigator.get_curr().get_position());
@@ -36,8 +42,11 @@ public class CleanSweep {
                 if (Navigator.get_curr().get_position().get_x() == 0
                         && Navigator.get_curr().get_position().get_y() == 0)
                     on_return_path = false; // We've made it back to the charging station.
-                if (!on_return_path)
+                if (!on_return_path) {
                     System.out.println("Visited the node at " + next_in_cycle.get_position()); // For demo purposes.
+                    if (Battery.get_curr_charge() >= 0)
+                        System.out.println("Remaining charge: " + Battery.get_curr_charge());
+                }
             }
         }
     }
@@ -46,6 +55,11 @@ public class CleanSweep {
         // TODO - This method should turn off the Clean Sweep. (?)
         // I guess this is more of a symbolic method.
         // If we could make some system calls to turn off the Clean Sweep, we'd do that here.
+    }
+
+    public static void clean() {
+        Battery.consume(Navigator.get_curr());
+        // If we could make some system calls to make the Clean Sweep clean, we'd do that here.
     }
 
     public static RoomNode get_floor_local() {

@@ -10,19 +10,30 @@ public class Battery {
     // TODO - Is this charge being managed and calculated by Navigator correctly? Verify power management in Sprint 3.
 
     // Calculate how my battery each floor consumes
-    // TODO - This should be called from a CleanSweep.clean() method during the Clean Sweep's clean cycles.
-    public void battery_consume(RoomNode type1, RoomNode type2) {
+    public static void consume(RoomNode type1) {
         switch (type1.get_floor()) {
             case BARE_FLOOR:                    // BARE_FLOOR consumes only 1 unit
-                this.curr_charge -= 1;    // So, cut 1 unit from remaining_battery
+                curr_charge -= 1;    // So, cut 1 unit from remaining_battery
             case LOW_CARPET:                    // LOW_CARPET consumes only 2 units
-                this.curr_charge -= 2;    // So, cut 2 units from remaining_battery
+                curr_charge -= 2;    // So, cut 2 units from remaining_battery
             case HIGH_CARPET:                   // HIGH_CARPET consumes only 2 units
-                this.curr_charge -= 3;    // So, cut 3 units from remaining_battery
+                curr_charge -= 3;    // So, cut 3 units from remaining_battery
         }
         // What happens when the Clean Sweep moves from floor type A to B?
         // It will use the average cost (units) of those two floor types (type1 and type2)
-        curr_charge -= power_req_calc(type1, type2);         // Cut the average cost (units) from remaining_battery
+        // curr_charge -= power_req_calc(type1, type2);         // Cut the average cost (units) from remaining_battery
+    }
+
+    public static int check(RoomNode type1) {
+        switch (type1.get_floor()) {
+            case BARE_FLOOR:                    // BARE_FLOOR consumes only 1 unit
+                return 1;    // So, cut 1 unit from remaining_battery
+            case LOW_CARPET:                    // LOW_CARPET consumes only 2 units
+                return 2;    // So, cut 2 units from remaining_battery
+            case HIGH_CARPET:                   // HIGH_CARPET consumes only 2 units
+                return 3;    // So, cut 3 units from remaining_battery
+        }
+        return 0;
     }
 
     public static float power_req_calc(RoomNode at, RoomNode to) {

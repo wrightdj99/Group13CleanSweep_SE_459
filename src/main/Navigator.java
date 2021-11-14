@@ -30,15 +30,18 @@ public class Navigator {
         if (next != null) { // Is there a node ahead at all?
             if (!next.is_obstacle()) { // Is the node ahead an obstacle?
                 // It's not! So we can move.
-                float charge_after_move = Battery.get_curr_charge() - Battery.power_req_calc(curr, next);
-                if (charge_after_move < power_req && !CleanSweep.on_return_path) { // But do we have enough power?
+                float charge_after_move_and_clean = Battery.get_curr_charge() - Battery.power_req_calc(curr, next) - Battery.check(next);
+                if (charge_after_move_and_clean < power_req && !CleanSweep.on_return_path) { // But do we have enough power?
                     return false;
                 }
                 // If we could make a system call to get the Clean Sweep to physically move, we'd do that here.
                 // curr_prev = curr;
                 curr = next;
                 invalid = 0;
+                if (!CleanSweep.on_return_path)
+                    CleanSweep.clean();
                 Battery.set_curr_charge(Battery.get_curr_charge() - Battery.power_req_calc(curr, next));
+                // System.out.println(Battery.get_curr_charge());
                 return true; // We let the caller know that we moved successfully.
             } else { // The node ahead is an obstacle . . .
                 return false; // We let the caller know that we can't move in that direction.
@@ -50,15 +53,18 @@ public class Navigator {
             if (discovered != null) { // Is there a node there at all?
                 if (!discovered.is_obstacle()) { // Is the node an obstacle?
                     // It's not! So we can move.
-                    float charge_after_move = Battery.get_curr_charge() - Battery.power_req_calc(curr, discovered);
-                    if (charge_after_move < power_req && !CleanSweep.on_return_path) { // But do we have enough power?
+                    float charge_after_move_and_clean = Battery.get_curr_charge() - Battery.power_req_calc(curr, discovered) - Battery.check(next);
+                    if (charge_after_move_and_clean < power_req && !CleanSweep.on_return_path) { // But do we have enough power?
                         return false;
                     }
                     // If we could make a system call to get the Clean Sweep to physically move, we'd do that here.
                     // curr_prev = curr;
                     curr = discovered;
                     invalid = 0;
+                    if (!CleanSweep.on_return_path)
+                        CleanSweep.clean();
                     Battery.set_curr_charge(Battery.get_curr_charge() - Battery.power_req_calc(curr, discovered));
+                    // System.out.println(Battery.get_curr_charge());
                     return true; // We let the caller know that we moved successfully.
                 }
                 // TODO - Right here we'd want to add our newly discovered node to the Clean Sweep's local floor plan.
