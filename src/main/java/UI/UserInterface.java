@@ -6,9 +6,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import main.CleanSweep;
 import main.CleanSweepMain;
+import main.LogInfo;
 import main.RoomNode;
 
 public class UserInterface extends JFrame {
+    static ArrayList<LogInfo> logs;
     public UserInterface(){
         //Declarations and layout setting
         JFrame firstFrame = new JFrame("CLEAN SWEEP OPERATIONS");
@@ -45,9 +47,13 @@ public class UserInterface extends JFrame {
         JLabel lowBattery = new JLabel();
         lowBattery.setText("Low Battery!");
         lowBattery.setVisible(CleanSweep.on_return_path);
+        canvas.add(lowBattery);
 
 
         CleanSweep cleanSweep = new CleanSweep();
+//        logs = new ArrayList<>();
+//        CleanSweep.set_log_info_list(logs);
+
     }
 
     public static void loginRegisterMenu(){
@@ -113,13 +119,57 @@ public class UserInterface extends JFrame {
 
     }
 
+    public static void history() {
+
+        JTextArea jl = new JTextArea("<html><h1>CLEAN SWEEP HISTORY</h1><br/></html>");
+        jl.setBackground(Color.CYAN);
+        JFrame optionFrame = new JFrame("CLEAN SWEEP HISTORY");
+        JPanel jp = new JPanel();
+        jp.setBackground(Color.CYAN);
+        jl.setSize(500, 200);
+        optionFrame.setSize(550, 550);
+        jp.setSize(400, 400);
+        jp.add(jl);
+
+        jp.setLayout(new BoxLayout(jp, BoxLayout.PAGE_AXIS));
+
+        JTextArea titles = new JTextArea();
+        titles.setBackground(Color.CYAN);
+        titles.setText("Curr_time\tCurr_Charge\tPosition\tIs_obstacle\tFloor_type\tis_not_on_return_path");
+        jp.add(titles);
+        optionFrame.add(jp);
+        optionFrame.add(jp);
+
+        StringBuilder sb = new StringBuilder();
+
+        for (LogInfo l : CleanSweep.log_info_list) {
+
+            sb.append(l.getCurrTime() + "\t");
+            sb.append(l.getCurrCharge() + "\t");
+            sb.append(l.getPosition() + "\t");
+            sb.append(l.getIsObstacle() + "\t");
+            sb.append(l.getFloorType() + "\t");
+            sb.append(l.getIsOnReturnPath());
+            sb.append("\n");
+        }
+
+        jl.setVisible(true);
+        jl.setText(sb.toString());
+        jp.add(jl);
+        optionFrame.add(jp);
+        optionFrame.setVisible(true);
+    }
+
     public static void thirdRoom(){
         ArrayList<RoomNode> rN = CleanSweepMain.floor_master_list;
+        logs = new ArrayList<>();
+        CleanSweep.set_log_info_list(logs);
         JFrame newFrame = new JFrame();
         JPanel newPanel = new JPanel();
         JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP ROOM 3</h1><br><br></html>");
 
         JButton demoLabel = new JButton("Back To Room Selection");
+        JButton historyLabel = new JButton ("Clean Sweep History");
         //demoLabel.setText("l");
         newFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         newPanel.setSize(500, 500);
@@ -170,6 +220,12 @@ public class UserInterface extends JFrame {
                 newPanel.add(sixteensPanel);
             }
         }
+
+        JLabel lowBattery = new JLabel();
+        lowBattery.setText("Low Battery!");
+        lowBattery.setVisible(!CleanSweep.on_return_path); // Clean Sweep is not on return path
+        newPanel.add(lowBattery);
+
         demoLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -177,6 +233,16 @@ public class UserInterface extends JFrame {
             }
         });
         newPanel.add(demoLabel);
+        newFrame.add(newPanel);
+        newFrame.setVisible(true);
+
+        historyLabel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                history();
+            }
+        });
+        newPanel.add(historyLabel);
         newFrame.add(newPanel);
         newFrame.setVisible(true);
 

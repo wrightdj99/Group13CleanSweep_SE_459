@@ -17,15 +17,17 @@ public class CleanSweepMain {
 
     public static RoomNode floor_master; // This is the master floor plan.
     public static ArrayList<RoomNode> floor_master_list; // This is a list containing all nodes in the floor plan.
+    public static ArrayList<LogInfo> logs;
     // The master floor plan exists as a mock for testing purposes only.
     // Remember, the starting point is the charging station.
 
     // The control system's entry point.
     public static void main(String[] args) {
         // If accounts have been made, put contents of Accounts.json into accountList.
+        logs = new ArrayList<LogInfo>();
         accountList.clear();
         accountList.addAll(loadFile());
-
+        CleanSweep.set_log_info_list(logs);
         // Run demo methods here.
         // demo_1(); // It's probably best to deprecate demo_1(). Let's not use it going forward.
         demo_2();
@@ -158,6 +160,7 @@ public class CleanSweepMain {
 
     public static void demo_3() {
         // Execution of cleaning cycle.
+
         System.out.println("\ndemo_3");
         System.out.println("Demonstration of cleaning cycle and automatic return to charging station.");
         System.out.println("Current Position: (3, 1)");
