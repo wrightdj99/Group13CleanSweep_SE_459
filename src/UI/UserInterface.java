@@ -95,7 +95,7 @@ public class UserInterface extends JFrame {
         newFrame.setSize(500, 500);
         newLabel.setSize(300, 300);
         //newFrame.setLayout(new FlowLayout());
-        newPanel.setBackground(Color.MAGENTA);
+        newPanel.setBackground(Color.WHITE);
         newPanel.add(newLabel);
         ArrayList<RoomNode> reformedRoom = new ArrayList<RoomNode>();
         for (RoomNode r : rN) {
