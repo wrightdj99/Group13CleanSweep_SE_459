@@ -1,7 +1,6 @@
 package UI;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,10 +46,12 @@ public class RegisterUI extends JPanel {
         Account account = new Account(email, password);
         CleanSweepMain.getAccountFromUI(account);
         UserInterface.optionMenu();
+        frame.setBackground(Color.CYAN);
         frame.setVisible(false);
       } else {
         errorArea.setText("Passwords don't match");
       }
+
     });
 
     backButton.addActionListener(e -> {
