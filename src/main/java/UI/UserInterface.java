@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.util.ArrayList;
+
+import main.Battery;
 import main.CleanSweep;
 import main.CleanSweepMain;
 import main.LogInfo;
@@ -96,6 +98,7 @@ public class UserInterface extends JFrame {
         optionCanvas.setLayout(new BoxLayout(optionCanvas, BoxLayout.PAGE_AXIS));
         JLabel firstLabel = new JLabel();
         JLabel secondLabel = new JLabel();
+        JButton roomTwo = new JButton("Room Title: 'Kitchen'");
         JButton roomThree = new JButton("Room Title: 'LivingRoom'");
         optionCanvas.setBackground(Color.CYAN);
         optionFrame.setBackground(Color.CYAN);
@@ -110,9 +113,14 @@ public class UserInterface extends JFrame {
                 thirdRoom();
             }
         });
+        roomTwo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { secondRoom(); }
+        });
         /*END CONFIGURATION*/
         optionCanvas.add(firstLabel);
         optionCanvas.add(secondLabel);
+        optionCanvas.add(roomTwo);
         optionCanvas.add(roomThree);
         optionFrame.add(optionCanvas);
         optionFrame.setSize(500, 500);
@@ -136,7 +144,8 @@ public class UserInterface extends JFrame {
 
         JTextArea titles = new JTextArea();
         titles.setBackground(Color.MAGENTA);
-        titles.setText("Curr_time\tCurr_Charge\tPosition\tIs_obstacle\tFloor_type\tis_not_on_return_path");
+        titles.setText(
+            "Curr_time\tCurr_Charge\tPosition\tIs_obstacle\tFloor_type\tis_not_on_return_path");
         jp.add(titles);
         optionFrame.add(jp);
         optionFrame.add(jp);
@@ -161,13 +170,32 @@ public class UserInterface extends JFrame {
         optionFrame.setVisible(true);
     }
 
+    public static void secondRoom(){
+        JFrame secondFrame = new JFrame();
+        JPanel secondPanel = new JPanel();
+        JLabel details = new JLabel();
+        JLabel title = new JLabel("<html><h1>CLEAN SWEEP ROOM: 'Kitchen'</h1><br><br></html>");
+        secondPanel.setLayout(new BoxLayout(secondPanel, BoxLayout.PAGE_AXIS));
+        System.out.println("SECOND DEMO RIGHT HERE");
+        String returnValue = CleanSweepMain.demo_2();
+        secondFrame.setSize(500, 500);
+        secondPanel.setSize(500, 500);
+        secondPanel.setBackground(Color.CYAN);
+        details.setText("<html>" + returnValue + "</html>");
+        secondPanel.add(title);
+        secondPanel.add(details);
+        secondFrame.add(secondPanel);
+        secondFrame.setVisible(true);
+
+    }
+
     public static void thirdRoom(){
         ArrayList<RoomNode> rN = CleanSweepMain.floor_master_list;
         logs = new ArrayList<>();
         CleanSweep.set_log_info_list(logs);
         JFrame newFrame = new JFrame();
         JPanel newPanel = new JPanel();
-        JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP ROOM 3</h1><br><br></html>");
+        JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP ROOM: 'Living Room'</h1><br><br></html>");
 
         JButton demoLabel = new JButton("Back To Room Selection");
         JButton historyLabel = new JButton ("Clean Sweep History");
