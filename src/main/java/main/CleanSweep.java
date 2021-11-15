@@ -16,16 +16,19 @@ public class CleanSweep {
     public static void clean_cycle() {
         // TODO - This method currently assumes that the Clean Sweep has access to an accurate floor plan.
         // TODO - This method would be much more efficient if cycle_queue took node adjacency into account.
+        if(log_info_list!=null){
+            log_info_list = new ArrayList<>();
+        }
         ArrayList<RoomNode> cycle_queue = new ArrayList<RoomNode>(CleanSweepMain.floor_master_list);
         ArrayList<RoomNode> path_to_next = new ArrayList<RoomNode>();
         cycle_queue.add(cycle_queue.remove(0)); // So that the Clean Sweep returns home after a cycle.
         while (cycle_queue.size() != 0) {
             RoomNode next_in_cycle = cycle_queue.remove(0);
-            if(log_info_list!=null){
+
                 //if log_info_list has been set than we will add LogInfo to the list
                 log_info_list.add(new LogInfo(LocalDate.now(), next_in_cycle.get_position(), next_in_cycle.get_floor(),
-                        next_in_cycle.is_obstacle(), !on_return_path, Battery.get_curr_charge() ));
-            }
+                        next_in_cycle.is_obstacle(), ! on_return_path, Battery.get_curr_charge() ));
+//            }
 
             if (!next_in_cycle.is_obstacle()) {
                 path_to_next = Navigator.pathfinder(next_in_cycle.get_position());
