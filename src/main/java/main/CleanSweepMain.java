@@ -3,6 +3,9 @@ package main;
 import UI.UserInterface;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -140,22 +143,33 @@ public class CleanSweepMain {
         System.out.println("\n");
     }
 
-    public static void demo_2() {
+    public static String demo_2() {
         // Automatic pathfinding to charging station.
         /*System.out.println("\ndemo_2");
         System.out.println("Demonstration of pathfinding to charging station.");
         System.out.println("Current Position: (3, 1)");
         System.out.println("Target Position: (0, 0)");
         System.out.println("Starting demo . . .");*/
-
+        /*JFrame secondDemoFrame = new JFrame("Kitchen");
+        JPanel secondDemoPanel = new JPanel();
+        secondDemoFrame.setSize(500, 500);
+        secondDemoPanel.setBackground(Color.CYAN);
+        secondDemoFrame.add(secondDemoPanel);
+        secondDemoFrame.setVisible(true);*/
         Battery.set_curr_charge(250);
         System.out.println(Battery.get_curr_charge());
         build_1();
         ArrayList<RoomNode> charge_path = Navigator.pathfinder(new Vector2(0, 0));
+        StringBuilder demo2Result = new StringBuilder();
         while (charge_path.size() != 0) {
             RoomNode charge_path_node = charge_path.remove(0);
             System.out.println("Visited the node at " + charge_path_node.get_position().toString());
+            demo2Result.append("<p>").append(charge_path_node.get_position().toString()).append("</p>").append("<br>");
         }
+        String finalResult = demo2Result.toString();
+        return finalResult;
+
+
     }
 
     public static void demo_3() {

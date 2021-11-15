@@ -122,8 +122,21 @@ public class UserInterface extends JFrame {
     }
 
     public static void secondRoom(){
+        JFrame secondFrame = new JFrame();
+        JPanel secondPanel = new JPanel();
+        JLabel details = new JLabel();
+        JLabel title = new JLabel("<html><h1>CLEAN SWEEP ROOM: 'Kitchen'</h1><br><br></html>");
+        secondPanel.setLayout(new BoxLayout(secondPanel, BoxLayout.PAGE_AXIS));
         System.out.println("SECOND DEMO RIGHT HERE");
-        CleanSweepMain.demo_2();
+        String returnValue = CleanSweepMain.demo_2();
+        secondFrame.setSize(500, 500);
+        secondPanel.setSize(500, 500);
+        secondPanel.setBackground(Color.CYAN);
+        details.setText("<html>" + returnValue + "</html>");
+        secondPanel.add(title);
+        secondPanel.add(details);
+        secondFrame.add(secondPanel);
+        secondFrame.setVisible(true);
 
     }
 
@@ -131,7 +144,7 @@ public class UserInterface extends JFrame {
         ArrayList<RoomNode> rN = CleanSweepMain.floor_master_list;
         JFrame newFrame = new JFrame();
         JPanel newPanel = new JPanel();
-        JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP ROOM 3</h1><br><br></html>");
+        JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP ROOM: 'Living Room'</h1><br><br></html>");
 
         JButton demoLabel = new JButton("Back To Room Selection");
         //demoLabel.setText("l");
