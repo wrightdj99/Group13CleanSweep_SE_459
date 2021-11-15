@@ -98,6 +98,7 @@ public class UserInterface extends JFrame {
         JLabel secondLabel = new JLabel();
         JButton roomThree = new JButton("Room Title: 'LivingRoom'");
         optionCanvas.setBackground(Color.CYAN);
+        optionFrame.setBackground(Color.CYAN);
         /*EDIT BELOW THIS COMMENT*/
         firstLabel.setText("Which room would you like to see the cleaning history of?");
         secondLabel.setText("Rooms registered: ");
@@ -122,10 +123,10 @@ public class UserInterface extends JFrame {
     public static void history() {
 
         JTextArea jl = new JTextArea("<html><h1>CLEAN SWEEP HISTORY</h1><br/></html>");
-        jl.setBackground(Color.CYAN);
+        jl.setBackground(Color.MAGENTA);
         JFrame optionFrame = new JFrame("CLEAN SWEEP HISTORY");
         JPanel jp = new JPanel();
-        jp.setBackground(Color.CYAN);
+        jp.setBackground(Color.MAGENTA);
         jl.setSize(500, 200);
         optionFrame.setSize(550, 550);
         jp.setSize(400, 400);
@@ -134,7 +135,7 @@ public class UserInterface extends JFrame {
         jp.setLayout(new BoxLayout(jp, BoxLayout.PAGE_AXIS));
 
         JTextArea titles = new JTextArea();
-        titles.setBackground(Color.CYAN);
+        titles.setBackground(Color.MAGENTA);
         titles.setText("Curr_time\tCurr_Charge\tPosition\tIs_obstacle\tFloor_type\tis_not_on_return_path");
         jp.add(titles);
         optionFrame.add(jp);
@@ -149,7 +150,7 @@ public class UserInterface extends JFrame {
             sb.append(l.getPosition() + "\t");
             sb.append(l.getIsObstacle() + "\t");
             sb.append(l.getFloorType() + "\t");
-            sb.append(l.getIsOnReturnPath());
+            sb.append(l.getIsOnReturnPath() + "\t");
             sb.append("\n");
         }
 
