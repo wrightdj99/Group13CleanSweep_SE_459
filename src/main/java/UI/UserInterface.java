@@ -42,6 +42,10 @@ public class UserInterface extends JFrame {
         firstFrame.getContentPane().add(BorderLayout.CENTER, canvas);
         firstFrame.add(canvas);
         firstFrame.setVisible(true);
+        JLabel lowBattery = new JLabel();
+        lowBattery.setText("Low Battery!");
+        lowBattery.setVisible(CleanSweep.on_return_path);
+
 
         CleanSweep cleanSweep = new CleanSweep();
     }
