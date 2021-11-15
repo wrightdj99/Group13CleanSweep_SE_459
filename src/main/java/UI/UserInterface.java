@@ -18,7 +18,7 @@ public class UserInterface extends JFrame {
         JLabel firstLabel = new JLabel();
         JButton firstButton = new JButton("START");
         //Adding to canvas
-        canvas.setBackground(Color.WHITE);
+        canvas.setBackground(Color.CYAN);
         canvas.add(firstLabel);
         firstFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //Configuring canvas elements
@@ -87,6 +87,7 @@ public class UserInterface extends JFrame {
         JLabel firstLabel = new JLabel();
         JLabel secondLabel = new JLabel();
         JButton roomThree = new JButton("Room Title: 'LivingRoom'");
+        optionCanvas.setBackground(Color.CYAN);
         /*EDIT BELOW THIS COMMENT*/
         firstLabel.setText("Which room would you like to see the cleaning history of?");
         secondLabel.setText("Rooms registered: ");
@@ -121,7 +122,7 @@ public class UserInterface extends JFrame {
         newFrame.setSize(500, 500);
         newLabel.setSize(300, 300);
         //newFrame.setLayout(new FlowLayout());
-        newPanel.setBackground(Color.MAGENTA);
+        newPanel.setBackground(Color.CYAN);
         newPanel.add(newLabel);
         ArrayList<RoomNode> reformedRoom = new ArrayList<RoomNode>();
         for (RoomNode r : rN) {

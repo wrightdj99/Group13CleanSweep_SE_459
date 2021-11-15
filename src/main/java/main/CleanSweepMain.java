@@ -27,10 +27,10 @@ public class CleanSweepMain {
         accountList.addAll(loadFile());
 
         // Run demo methods here.
-        demo_1();
+        // demo_1(); // It's probably best to deprecate demo_1(). Let's not use it going forward.
         demo_2();
         demo_3();
-        demo_4();
+        // demo_4(); // It's probably best to deprecate demo_4(). Let's not use it going forward.
         UserInterface ui = new UserInterface();
         // . . . etc.
     }
@@ -142,23 +142,29 @@ public class CleanSweepMain {
 
     public static void demo_2() {
         // Automatic pathfinding to charging station.
+        System.out.println("\ndemo_2");
+        System.out.println("Demonstration of pathfinding to charging station.");
+        System.out.println("Current Position: (3, 1)");
+        System.out.println("Target Position: (0, 0)");
+        System.out.println("Starting demo . . .");
         build_1();
         Battery.set_curr_charge(250);
-        System.out.println("demo_2");
         ArrayList<RoomNode> charge_path = Navigator.pathfinder(new Vector2(0, 0));
         while (charge_path.size() != 0) {
             RoomNode charge_path_node = charge_path.remove(0);
-            System.out.println(charge_path_node.get_position().toString());
-        } System.out.println("\n");
+            System.out.println("Visited the node at " + charge_path_node.get_position().toString());
+        }
     }
 
     public static void demo_3() {
         // Execution of cleaning cycle.
+        System.out.println("\ndemo_3");
+        System.out.println("Demonstration of cleaning cycle and automatic return to charging station.");
+        System.out.println("Current Position: (3, 1)");
+        System.out.println("Starting demo . . .");
         build_1();
         Battery.set_curr_charge(250);
-        System.out.println("demo_3");
         CleanSweep.clean_cycle();
-        System.out.println("\n");
     }
 
     public static void demo_4() {
