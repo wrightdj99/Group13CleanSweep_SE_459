@@ -1,5 +1,6 @@
 package main;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CleanSweep {
@@ -9,6 +10,8 @@ public class CleanSweep {
     // TODO - When the Clean Sweep first wakes up, it should assign its position to floor_local.
     // This is assuming that the Clean Sweep is starting from its charging station, which should be (0, 0).
     public static boolean on_return_path = false;
+    //ArrayList to keep history of all the logging information
+    public static ArrayList<LogInfo> log_info_list;
 
     public static void clean_cycle() {
         // TODO - This method currently assumes that the Clean Sweep has access to an accurate floor plan.
@@ -18,6 +21,12 @@ public class CleanSweep {
         cycle_queue.add(cycle_queue.remove(0)); // So that the Clean Sweep returns home after a cycle.
         while (cycle_queue.size() != 0) {
             RoomNode next_in_cycle = cycle_queue.remove(0);
+            if(log_info_list!=null){
+                //if log_info_list has been set than we will add LogInfo to the list
+                log_info_list.add(new LogInfo(LocalDate.now(), next_in_cycle.get_position(), next_in_cycle.get_floor(),
+                        next_in_cycle.is_obstacle(), !on_return_path, Battery.get_curr_charge() ));
+            }
+
             if (!next_in_cycle.is_obstacle()) {
                 path_to_next = Navigator.pathfinder(next_in_cycle.get_position());
                 path_to_next.remove(0); // Removing redundant node (we're already here).
@@ -76,6 +85,10 @@ public class CleanSweep {
 
     public static void set_floor_local_list(ArrayList<RoomNode> floor_local_list) {
         CleanSweep.floor_local_list = floor_local_list;
+    }
+
+    public static void set_log_info_list(ArrayList<LogInfo> log_info_list) {
+        CleanSweep.log_info_list = log_info_list;
     }
 
 }
