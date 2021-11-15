@@ -142,13 +142,15 @@ public class CleanSweepMain {
 
     public static void demo_2() {
         // Automatic pathfinding to charging station.
-        System.out.println("\ndemo_2");
+        /*System.out.println("\ndemo_2");
         System.out.println("Demonstration of pathfinding to charging station.");
         System.out.println("Current Position: (3, 1)");
         System.out.println("Target Position: (0, 0)");
-        System.out.println("Starting demo . . .");
-        build_1();
+        System.out.println("Starting demo . . .");*/
+
         Battery.set_curr_charge(250);
+        System.out.println(Battery.get_curr_charge());
+        build_1();
         ArrayList<RoomNode> charge_path = Navigator.pathfinder(new Vector2(0, 0));
         while (charge_path.size() != 0) {
             RoomNode charge_path_node = charge_path.remove(0);

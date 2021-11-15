@@ -42,12 +42,19 @@ public class RegisterUI extends JPanel {
       String email = emailTextField.getText();
       String password = passwordField.getText();
       String confirmPassword = confirmPasswordField.getText();
+
       if (confirmPassword.equals(password)) {
-        Account account = new Account(email, password);
-        CleanSweepMain.getAccountFromUI(account);
-        UserInterface.optionMenu();
-        frame.setBackground(Color.CYAN);
-        frame.setVisible(false);
+        if(email.contains("@") && email.contains(".com")){
+          Account account = new Account(email, password);
+          CleanSweepMain.getAccountFromUI(account);
+          UserInterface.optionMenu();
+          frame.setBackground(Color.CYAN);
+          frame.setVisible(false);
+        }
+        else{
+          errorArea.setText("Invalid email");
+        }
+
       } else {
         errorArea.setText("Passwords don't match");
       }

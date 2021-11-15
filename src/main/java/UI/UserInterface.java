@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.util.ArrayList;
+
+import main.Battery;
 import main.CleanSweep;
 import main.CleanSweepMain;
 import main.RoomNode;
@@ -90,6 +92,7 @@ public class UserInterface extends JFrame {
         optionCanvas.setLayout(new BoxLayout(optionCanvas, BoxLayout.PAGE_AXIS));
         JLabel firstLabel = new JLabel();
         JLabel secondLabel = new JLabel();
+        JButton roomTwo = new JButton("Room Title: 'Kitchen'");
         JButton roomThree = new JButton("Room Title: 'LivingRoom'");
         optionCanvas.setBackground(Color.CYAN);
         /*EDIT BELOW THIS COMMENT*/
@@ -103,13 +106,24 @@ public class UserInterface extends JFrame {
                 thirdRoom();
             }
         });
+        roomTwo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { secondRoom(); }
+        });
         /*END CONFIGURATION*/
         optionCanvas.add(firstLabel);
         optionCanvas.add(secondLabel);
+        optionCanvas.add(roomTwo);
         optionCanvas.add(roomThree);
         optionFrame.add(optionCanvas);
         optionFrame.setSize(500, 500);
         optionFrame.setVisible(true);
+
+    }
+
+    public static void secondRoom(){
+        System.out.println("SECOND DEMO RIGHT HERE");
+        CleanSweepMain.demo_2();
 
     }
 
