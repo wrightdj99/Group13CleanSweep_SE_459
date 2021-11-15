@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import main.Account;
 import main.CleanSweepMain;
+import UI.UserInterface;
 
 public class RegisterUI extends JPanel {
 

@@ -1,4 +1,8 @@
-package main;
+package UI;
+import main.CleanSweep;
+import main.CleanSweepMain;
+import main.RoomNode;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
