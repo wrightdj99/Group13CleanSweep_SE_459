@@ -1,6 +1,7 @@
 package UI;
 
 import java.awt.*;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -62,8 +63,12 @@ public class RegisterUI extends JPanel {
     });
 
     backButton.addActionListener(e -> {
+      try {
         UserInterface.loginRegisterMenu();
-        frame.setVisible(false);
+      } catch (IOException ioException) {
+        ioException.printStackTrace();
+      }
+      frame.setVisible(false);
     });
 
     GridBagConstraints c = new GridBagConstraints();

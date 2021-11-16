@@ -2,6 +2,7 @@ package UI;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -50,7 +51,11 @@ public class LoginUI extends JPanel {
     });
 
     backButton.addActionListener(e -> {
-      UserInterface.loginRegisterMenu();
+      try {
+        UserInterface.loginRegisterMenu();
+      } catch (IOException ioException) {
+        ioException.printStackTrace();
+      }
       frame.setVisible(false);
     });
 

@@ -1,9 +1,12 @@
 package UI;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 import main.Battery;
 import main.CleanSweep;
@@ -20,9 +23,10 @@ public class UserInterface extends JFrame {
         canvas.setLayout(new BoxLayout(canvas, BoxLayout.PAGE_AXIS));
         Container ourContainer = getContentPane();
         JLabel firstLabel = new JLabel();
+        JLabel imageLabel = new JLabel();
         JButton firstButton = new JButton("START");
         //Adding to canvas
-        canvas.setBackground(Color.CYAN);
+        canvas.setBackground(Color.PINK);
         canvas.add(firstLabel);
         firstFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //Configuring canvas elements
@@ -37,12 +41,16 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                optionMenu();
-                loginRegisterMenu();
+                try {
+                    loginRegisterMenu();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
                 firstFrame.setVisible(false);
             }
         });
         //Final frame sets
-        firstFrame.setSize(450, 500);
+        firstFrame.setSize(600, 600);
         firstFrame.getContentPane().add(BorderLayout.CENTER, canvas);
         firstFrame.add(canvas);
         firstFrame.setVisible(true);
@@ -52,19 +60,29 @@ public class UserInterface extends JFrame {
         canvas.add(lowBattery);
 
 
-        CleanSweep cleanSweep = new CleanSweep();
+        //CleanSweep cleanSweep = new CleanSweep();
 //        logs = new ArrayList<>();
 //        CleanSweep.set_log_info_list(logs);
 
     }
 
-    public static void loginRegisterMenu(){
+    public static void loginRegisterMenu() throws IOException {
+        LogoEditor logoEditor = new LogoEditor();
         JFrame loginRegisterFrame = new JFrame("LOGIN / REGISTER");
         JPanel loginRegisterCanvas = new JPanel();
         loginRegisterCanvas.setLayout(new BoxLayout(loginRegisterCanvas, BoxLayout.PAGE_AXIS));
 
+        loginRegisterFrame.setBackground(Color.PINK);
+        loginRegisterCanvas.setBackground(Color.PINK);
+
+        ImageIcon shiningStar = new ImageIcon("shiningStar2.png");
+        logoEditor.imageResize("shiningStar2.png", "shiningStarFinal.png", 400, 400);
+        ImageIcon shiningStarFinal = new ImageIcon("shiningStarFinal.png");
+        JLabel imageLabel = new JLabel();
         JLabel firstLabel = new JLabel();
         JLabel secondLabel = new JLabel();
+        imageLabel.setIcon(shiningStarFinal);
+
 
         JButton register = new JButton("Register");
         JButton login = new JButton("Login");
@@ -86,8 +104,9 @@ public class UserInterface extends JFrame {
         loginRegisterCanvas.add(secondLabel);
         loginRegisterCanvas.add(register);
         loginRegisterCanvas.add(login);
+        loginRegisterCanvas.add(imageLabel);
         loginRegisterFrame.add(loginRegisterCanvas);
-        loginRegisterFrame.setSize(500,500);
+        loginRegisterFrame.setSize(600,600);
         loginRegisterFrame.setVisible(true);
 
     }
