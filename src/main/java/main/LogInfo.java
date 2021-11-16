@@ -20,6 +20,7 @@ public class LogInfo {
         this.isObstacle = isObstacle;
         this.isOnReturnPath = isOnReturnPath;
         this.currCharge = currCharge;
+
     }
 
     public LocalDate getCurrTime(){
