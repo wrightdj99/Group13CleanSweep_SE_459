@@ -24,7 +24,10 @@ public class UserInterface extends JFrame {
         Container ourContainer = getContentPane();
         JLabel firstLabel = new JLabel();
         JLabel imageLabel = new JLabel();
+        ImageIcon shiningStarFinal = new ImageIcon("shiningStarFinal.png");
+        imageLabel.setIcon(shiningStarFinal);
         JButton firstButton = new JButton("START");
+        imageLabel.setIcon(shiningStarFinal);
         //Adding to canvas
         canvas.setBackground(Color.PINK);
         canvas.add(firstLabel);
@@ -35,6 +38,7 @@ public class UserInterface extends JFrame {
         firstLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
         firstLabel.setVerticalAlignment(SwingConstants.CENTER);
         canvas.add(firstButton);
+        canvas.add(imageLabel);
         ourContainer.add(canvas, BorderLayout.CENTER);
         //Figuring out the button
         firstButton.addActionListener(new ActionListener() {
@@ -50,7 +54,7 @@ public class UserInterface extends JFrame {
             }
         });
         //Final frame sets
-        firstFrame.setSize(600, 600);
+        firstFrame.setSize(500, 500);
         firstFrame.getContentPane().add(BorderLayout.CENTER, canvas);
         firstFrame.add(canvas);
         firstFrame.setVisible(true);
@@ -106,7 +110,7 @@ public class UserInterface extends JFrame {
         loginRegisterCanvas.add(login);
         loginRegisterCanvas.add(imageLabel);
         loginRegisterFrame.add(loginRegisterCanvas);
-        loginRegisterFrame.setSize(600,600);
+        loginRegisterFrame.setSize(500,500);
         loginRegisterFrame.setVisible(true);
 
     }
