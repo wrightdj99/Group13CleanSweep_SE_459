@@ -159,33 +159,96 @@ public class UserInterface extends JFrame {
     }
 
     public static void secondRoom() {
-        JFrame secondFrame = new JFrame();
-        JPanel secondPanel = new JPanel();
-        JLabel details = new JLabel();
-        JLabel title = new JLabel("<html><h1>CLEAN SWEEP ROOM: 'Kitchen'</h1><br><br></html>");
-        JButton demoLabel = new JButton("Back To Room Selection");
+        ArrayList<RoomNode> rN = CleanSweepMain.floor_master_list;
+        logs = new ArrayList<>();
+        CleanSweep.set_log_info_list(logs);
+        JFrame newFrame = new JFrame();
+        JPanel newPanel = new JPanel();
+        JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP ROOM: 'Kitchen'</h1><br><br></html>");
+        JLabel imageLabel = new JLabel();
+        ImageIcon thirdRoomLogo = new ImageIcon("shiningStarTiny.png");
+        imageLabel.setIcon(thirdRoomLogo);
 
-        secondPanel.setLayout(new BoxLayout(secondPanel, BoxLayout.PAGE_AXIS));
-        System.out.println("SECOND DEMO RIGHT HERE");
-        String returnValue = CleanSweepMain.demo_2();
-        secondFrame.setSize(500, 500);
-        secondPanel.setSize(500, 500);
-        secondPanel.setBackground(Color.PINK);
-        details.setText("<html>" + returnValue + "</html>");
-        secondPanel.add(title);
-        secondPanel.add(details);
-        secondPanel.add(demoLabel);
+        JButton demoLabel = new JButton("Back To Room Selection");
+        JButton historyLabel = new JButton ("Clean Sweep History");
+        //demoLabel.setText("l");
+        newFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        newPanel.setSize(500, 500);
+        newFrame.setSize(500, 500);
+        newLabel.setSize(300, 300);
+        //newFrame.setLayout(new FlowLayout());
+        newPanel.setBackground(Color.PINK);
+        newPanel.add(newLabel);
+        ArrayList<RoomNode> reformedRoom = new ArrayList<RoomNode>();
+        for (RoomNode r : rN) {
+            CleanSweepMain.demo_3();
+            if (r.is_obstacle()) {
+
+            } else {
+                reformedRoom.add(r);
+            }
+        }
+
+        //Collections.reverse(reformedRoom);
+        for (RoomNode r : reformedRoom) {
+            //CleanSweepMain.demo_1();
+            int timeToSwitch = 0;
+            JLabel zerosPanel = new JLabel();
+            JLabel foursPanel = new JLabel();
+            JLabel eightsPanel = new JLabel();
+            JLabel twelvesPanel = new JLabel();
+            JLabel sixteensPanel = new JLabel();
+            if (r != null) {
+                timeToSwitch++;
+                if (timeToSwitch >= 0 && timeToSwitch <= 4) {
+                    if (timeToSwitch == 0) {
+                        zerosPanel.setText("CHARGING STATION NODE: " + r.get_position().toString());
+                    } else {
+                        foursPanel.setText("VISITED NODE:" + r.get_position().toString());
+                    }
+                } else if (timeToSwitch >= 5 && timeToSwitch <= 8) {
+                    eightsPanel.setText("VISITED NODE: " + r.get_position().toString());
+                } else if (timeToSwitch >= 9 && timeToSwitch <= 12) {
+                    twelvesPanel.setText("VISITED NODE: " + r.get_position().toString());
+                } else {
+                    sixteensPanel.setText("VISITED NODE: " + r.get_position().toString());
+                }
+
+                newPanel.add(zerosPanel);
+                newPanel.add(foursPanel);
+                newPanel.add(eightsPanel);
+                newPanel.add(twelvesPanel);
+                newPanel.add(sixteensPanel);
+            }
+        }
+        JLabel lowBattery = new JLabel();
+        lowBattery.setText("Low Battery!");
+        lowBattery.setVisible(!CleanSweep.on_return_path); // Clean Sweep is not on return path
+        newPanel.add(lowBattery);
+
         demoLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                secondFrame.setVisible(false);
+                newFrame.setVisible(false);
             }
         });
-        secondFrame.add(secondPanel);
-        secondFrame.setVisible(true);
+        newPanel.add(demoLabel);
+        newFrame.add(newPanel);
+        newFrame.setVisible(true);
+
+        historyLabel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                history();
+            }
+        });
+        newPanel.add(historyLabel);
+        newPanel.add(imageLabel);
+        newFrame.add(newPanel);
+        newFrame.setVisible(true);
     }
 
-        public static void history () {
+        public static void history(){
 
             JTextArea jl = new JTextArea("<html><h1>CLEAN SWEEP HISTORY</h1><br/></html>");
             jl.setBackground(Color.MAGENTA);
