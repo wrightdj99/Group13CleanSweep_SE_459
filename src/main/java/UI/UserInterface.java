@@ -33,7 +33,7 @@ public class UserInterface extends JFrame {
         canvas.add(firstLabel);
         firstFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //Configuring canvas elements
-        firstLabel.setText("THE CLEAN SWEEP EXPERIENCE");
+        firstLabel.setText("THE CLEAN SWEEP USER PORTAL");
         firstLabel.setLocation(400, 100);
         firstLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
         firstLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -44,7 +44,6 @@ public class UserInterface extends JFrame {
         firstButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                optionMenu();
                 try {
                     loginRegisterMenu();
                 } catch (IOException ioException) {
@@ -78,10 +77,14 @@ public class UserInterface extends JFrame {
 
         loginRegisterFrame.setBackground(Color.PINK);
         loginRegisterCanvas.setBackground(Color.PINK);
-
+        //Creating first logo size made by a designer
         ImageIcon shiningStar = new ImageIcon("shiningStar2.png");
         logoEditor.imageResize("shiningStar2.png", "shiningStarFinal.png", 400, 400);
         ImageIcon shiningStarFinal = new ImageIcon("shiningStarFinal.png");
+        //Creating second logo size made by a designer
+        logoEditor.imageResize("shiningStar2.png", "shiningStarTiny.png", 100, 100);
+        ImageIcon shiningStarTiny = new ImageIcon("shiningStarTiny.png");
+        //Setting up the other labels
         JLabel imageLabel = new JLabel();
         JLabel firstLabel = new JLabel();
         JLabel secondLabel = new JLabel();
@@ -123,8 +126,11 @@ public class UserInterface extends JFrame {
         JLabel secondLabel = new JLabel();
         JButton roomTwo = new JButton("Room Title: 'Kitchen'");
         JButton roomThree = new JButton("Room Title: 'LivingRoom'");
-        optionCanvas.setBackground(Color.CYAN);
-        optionFrame.setBackground(Color.CYAN);
+        JLabel imageLabel = new JLabel();
+        ImageIcon optionIcon = new ImageIcon("shiningStarFinal.png");
+        imageLabel.setIcon(optionIcon);
+        optionCanvas.setBackground(Color.PINK);
+        optionFrame.setBackground(Color.PINK);
         /*EDIT BELOW THIS COMMENT*/
         firstLabel.setText("Which room would you like to see the cleaning history of?");
         secondLabel.setText("Rooms registered: ");
@@ -145,6 +151,7 @@ public class UserInterface extends JFrame {
         optionCanvas.add(secondLabel);
         optionCanvas.add(roomTwo);
         optionCanvas.add(roomThree);
+        optionCanvas.add(imageLabel);
         optionFrame.add(optionCanvas);
         optionFrame.setSize(500, 500);
         optionFrame.setVisible(true);
@@ -161,7 +168,7 @@ public class UserInterface extends JFrame {
         String returnValue = CleanSweepMain.demo_2();
         secondFrame.setSize(500, 500);
         secondPanel.setSize(500, 500);
-        secondPanel.setBackground(Color.CYAN);
+        secondPanel.setBackground(Color.PINK);
         details.setText("<html>" + returnValue + "</html>");
         secondPanel.add(title);
         secondPanel.add(details);
@@ -188,7 +195,8 @@ public class UserInterface extends JFrame {
             returnToRoom.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    thirdRoom();
+                    //thirdRoom();
+                    optionFrame.setVisible(false);
                 }
             });
             JTextArea titles = new JTextArea();
@@ -229,6 +237,9 @@ public class UserInterface extends JFrame {
         JFrame newFrame = new JFrame();
         JPanel newPanel = new JPanel();
         JLabel newLabel = new JLabel("<html><h1>CLEAN SWEEP ROOM: 'Living Room'</h1><br><br></html>");
+        JLabel imageLabel = new JLabel();
+        ImageIcon thirdRoomLogo = new ImageIcon("shiningStarTiny.png");
+        imageLabel.setIcon(thirdRoomLogo);
 
         JButton demoLabel = new JButton("Back To Room Selection");
         JButton historyLabel = new JButton ("Clean Sweep History");
@@ -238,7 +249,7 @@ public class UserInterface extends JFrame {
         newFrame.setSize(500, 500);
         newLabel.setSize(300, 300);
         //newFrame.setLayout(new FlowLayout());
-        newPanel.setBackground(Color.CYAN);
+        newPanel.setBackground(Color.PINK);
         newPanel.add(newLabel);
         ArrayList<RoomNode> reformedRoom = new ArrayList<RoomNode>();
         for (RoomNode r : rN) {
@@ -291,7 +302,7 @@ public class UserInterface extends JFrame {
         demoLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                optionMenu();
+                newFrame.setVisible(false);
             }
         });
         newPanel.add(demoLabel);
@@ -305,6 +316,7 @@ public class UserInterface extends JFrame {
             }
         });
         newPanel.add(historyLabel);
+        newPanel.add(imageLabel);
         newFrame.add(newPanel);
         newFrame.setVisible(true);
 

@@ -2,20 +2,15 @@ package UI;
 
 import java.awt.*;
 import java.io.IOException;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
+
 import main.Account;
 import main.CleanSweepMain;
 
 public class RegisterUI extends JPanel {
 
   private static JFrame frame;
-  protected JLabel emailLabel, passwordLabel, confirmPasswordLabel;
+  protected JLabel emailLabel, passwordLabel, confirmPasswordLabel, imageLabel;
   protected JTextField emailTextField;
   protected JPasswordField passwordField, confirmPasswordField;
   protected JButton createButton, backButton;
@@ -39,6 +34,7 @@ public class RegisterUI extends JPanel {
     createButton = new JButton("Create");
     backButton = new JButton("Back");
 
+
     createButton.addActionListener(e -> {
       String email = emailTextField.getText();
       String password = passwordField.getText();
@@ -49,7 +45,6 @@ public class RegisterUI extends JPanel {
           Account account = new Account(email, password);
           CleanSweepMain.getAccountFromUI(account);
           UserInterface.optionMenu();
-          frame.setBackground(Color.CYAN);
           frame.setVisible(false);
         }
         else{
@@ -61,6 +56,7 @@ public class RegisterUI extends JPanel {
       }
 
     });
+
 
     backButton.addActionListener(e -> {
       try {
@@ -95,9 +91,9 @@ public class RegisterUI extends JPanel {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     frame.add(new RegisterUI());
-
     frame.pack();
     frame.setSize(500,500);
+
     frame.setVisible(true);
   }
 }
