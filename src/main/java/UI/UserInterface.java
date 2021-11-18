@@ -163,6 +163,8 @@ public class UserInterface extends JFrame {
         JPanel secondPanel = new JPanel();
         JLabel details = new JLabel();
         JLabel title = new JLabel("<html><h1>CLEAN SWEEP ROOM: 'Kitchen'</h1><br><br></html>");
+        JButton demoLabel = new JButton("Back To Room Selection");
+
         secondPanel.setLayout(new BoxLayout(secondPanel, BoxLayout.PAGE_AXIS));
         System.out.println("SECOND DEMO RIGHT HERE");
         String returnValue = CleanSweepMain.demo_2();
@@ -172,6 +174,13 @@ public class UserInterface extends JFrame {
         details.setText("<html>" + returnValue + "</html>");
         secondPanel.add(title);
         secondPanel.add(details);
+        secondPanel.add(demoLabel);
+        demoLabel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                secondFrame.setVisible(false);
+            }
+        });
         secondFrame.add(secondPanel);
         secondFrame.setVisible(true);
     }
