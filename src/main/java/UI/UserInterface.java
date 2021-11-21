@@ -181,7 +181,7 @@ public class UserInterface extends JFrame {
         newPanel.add(newLabel);
         ArrayList<RoomNode> reformedRoom = new ArrayList<RoomNode>();
         for (RoomNode r : rN) {
-            CleanSweepMain.demo_3();
+            CleanSweepMain.demo_1();
             if (r.is_obstacle()) {
 
             } else {
@@ -191,7 +191,7 @@ public class UserInterface extends JFrame {
 
         //Collections.reverse(reformedRoom);
         for (RoomNode r : reformedRoom) {
-            //CleanSweepMain.demo_1();
+            CleanSweepMain.demo_1();
             int timeToSwitch = 0;
             JLabel zerosPanel = new JLabel();
             JLabel foursPanel = new JLabel();
@@ -242,6 +242,7 @@ public class UserInterface extends JFrame {
                 history();
             }
         });
+        //historyLabel.setText("Cleaning history of 'Kitchen' not yet available.");
         newPanel.add(historyLabel);
         newPanel.add(imageLabel);
         newFrame.add(newPanel);
